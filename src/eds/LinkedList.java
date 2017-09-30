@@ -1,7 +1,9 @@
 package eds;
 
-public class LinkedList<E> implements DLList<E> {
 
+public class LinkedList<E> implements DLList<E>, java.io.Serializable {
+
+	private static final long serialVersionUID = -3182045828000433499L;
 	protected int size;
 	protected Node<E> head;
 	protected Node<E> tail;

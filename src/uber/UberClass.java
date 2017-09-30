@@ -1,5 +1,8 @@
 package uber;
 
+import java.io.*;
+import java.util.Scanner;
+
 import eds.*;
 import exceptions.*;
 import home.*;
@@ -10,9 +13,47 @@ public class UberClass implements UberInterface {
 	private DLList<UserInterface> users;
 	private DLList<Home> homes;
 
+	@SuppressWarnings("unchecked")
 	public UberClass() {
-		homes = new LinkedList<Home>();
-		users = new LinkedList<UserInterface>();
+
+		try {
+			FileInputStream fileIn = new FileInputStream("users.ser");
+			ObjectInputStream objIn = new ObjectInputStream(fileIn);
+			users = (DLList<UserInterface>) objIn.readObject();
+			objIn.close();
+			fileIn.close();
+		} catch (FileNotFoundException fnf) {
+			users = new LinkedList<UserInterface>();
+			fnf.printStackTrace();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class User not found.");
+			c.printStackTrace();
+			return;
+		}
+
+		try {
+			FileInputStream fileIn = new FileInputStream("homes.ser");
+			ObjectInputStream objIn = new ObjectInputStream(fileIn);
+			users = (DLList<UserInterface>) objIn.readObject();
+			objIn.close();
+			fileIn.close();
+		} catch (FileNotFoundException fnf) {
+			homes = new LinkedList<Home>();
+			fnf.printStackTrace();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class Home not found.");
+			c.printStackTrace();
+			return;
+		}
+
+		// homes = new LinkedList<Home>();
+		// users = new LinkedList<UserInterface>();
 	}
 
 	public void createUser(String userId, String email, String phone, String name, String address, String nationality)
@@ -140,14 +181,38 @@ public class UberClass implements UberInterface {
 
 		else if (home == -1)
 			throw new PropertyInexistantException();
-		
+
 		else if (!(users.get(user).hasHome(homeId)))
 			throw new TravellerIsNotHostException();
-		
+
 		else {
 			users.get(user).addStay(homes.get(home));
 		}
 
+	}
+	
+	public void saveStatus() {
+		try {
+			FileOutputStream fileOut = new FileOutputStream("users.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(users);
+			out.close();
+			fileOut.close();
+		}
+		catch(IOException i){
+			i.printStackTrace();
+		}
+		
+		try {
+			FileOutputStream fileOut = new FileOutputStream("homes.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(homes);
+			out.close();
+			fileOut.close();
+		}
+		catch(IOException i){
+			i.printStackTrace();
+		}
 	}
 
 	private int searchHome(String homeID) throws InvalidPositionException {
@@ -175,7 +240,8 @@ public class UberClass implements UberInterface {
 		return result;
 
 	}
-	
-	//TODO 4 iteradores. 1 metodo de sort por int. Serialize. Merda gay da eficiencia das procuras.
+
+	// TODO 4 iteradores. 1 metodo de sort por int. Serialize. Merda gay da
+	// eficiencia das procuras.
 
 }

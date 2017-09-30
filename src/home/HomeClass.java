@@ -2,8 +2,9 @@ package home;
 
 import user.*;
 
-public class HomeClass implements Home {
+public class HomeClass implements Home, java.io.Serializable {
 
+	private static final long serialVersionUID = 4246955027925062293L;
 	private String homeId, userId, local, description, address;
 	private int price, cap, score;
 	private boolean visited;
