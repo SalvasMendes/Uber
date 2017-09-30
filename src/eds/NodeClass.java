@@ -1,0 +1,38 @@
+package eds;
+
+public class NodeClass<E> implements Node<E> {
+	
+	private Node<E> next;
+	private Node<E> previous;
+	private E object;
+	
+	public NodeClass(Node<E> next, E object, Node<E> previous){
+		this.next = next;
+		this.object = object;
+		this.previous = previous;
+	
+	}
+
+	public Node<E> getNext() {
+		return next;
+	}
+	
+	public void setNext(Node<E> node){
+		next = node;
+	}
+	
+	public void setPrevious(Node<E> node){
+		previous = node;
+	}
+	
+	public Node<E> getPrevious(){
+		return previous;
+	}
+
+	public E getObject() {
+		return object;
+	}
+	
+	
+
+}

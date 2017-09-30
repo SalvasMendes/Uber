@@ -1,24 +1,38 @@
 package uber;
 
-import home.*;
-import user.*;
+import eds.EmptyListException;
+import eds.InvalidPositionException;
+import exceptions.PropertyExistsException;
+import exceptions.PropertyInexistantException;
+import exceptions.PropertyVisitedException;
+import exceptions.TravellerIsHostException;
+import exceptions.TravellerIsNotHostException;
+import exceptions.UserExistException;
+import exceptions.UserHasPlaceException;
+import exceptions.UserInexistantException;
+import home.Home;
+import user.UserInterface;
 
 public interface UberInterface {
 
-	void createUser(String userId, String email, String phone, String name, String address, String nationality);
+	void createUser(String userId, String email, String phone, String name, String address, String nationality) throws UserExistException, InvalidPositionException;
 
-	void createHome(String homeId, String userId, int price, int cap, String local, String description, String address);
+	void createHome(String homeId, String userId, int price, int cap, String local, String description, String address)
+			throws InvalidPositionException, PropertyExistsException, UserInexistantException;
 
-	void alterUser(String userId, String email, String phone, String name, String address, String nationality);
+	void alterUser(String userId, String email, String phone, String name, String address, String nationality)
+			throws InvalidPositionException, UserInexistantException;
 
-	void removeUser(String userId);
+	void removeUser(String userId) throws EmptyListException, InvalidPositionException, UserInexistantException, UserHasPlaceException;
 
-	void removeHome(String homeId);
+	UserInterface userInfo(String userId) throws InvalidPositionException, UserInexistantException;
 
-	UserInterface userInfo(String userId);
+	void removeHome(String homeId) throws EmptyListException, InvalidPositionException, PropertyInexistantException, PropertyVisitedException;
 
-	HomeInterface homeInfo(String homeId);
+	Home homeInfo(String homeId) throws InvalidPositionException, PropertyInexistantException;
 
-	void addScore(String homeId, String userId, int score);
+	void addStay(String userId, String homeId, int points) throws InvalidPositionException, UserInexistantException, PropertyInexistantException, TravellerIsHostException;
+
+	void addStayNoPoints(String userId, String homeId, int points) throws InvalidPositionException, UserInexistantException, PropertyInexistantException, TravellerIsNotHostException;
 
 }

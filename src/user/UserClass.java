@@ -1,14 +1,17 @@
 package user;
 
 import eds.*;
+import home.*;
 
 public class UserClass implements UserInterface {
 
-	private Stack<String> homes;
+	private DLList<Home> hostedHomes;
+	private DLList<Home> travelledHomes;
 	private String userId, email, phone, name, address, nationality;
 
 	public UserClass(String userId, String email, String phone, String name, String address, String nationality) {
-		homes = new Stack<String>();
+		hostedHomes = new LinkedList<Home>();
+		travelledHomes = new LinkedList<Home>();
 		this.userId = userId;
 		this.email = email;
 		this.phone = phone;
@@ -17,57 +20,72 @@ public class UserClass implements UserInterface {
 		this.nationality = nationality;
 	}
 
-	@Override
-	public Stack<String> getHomes() {
-		return homes;
-	}
-
-	@Override
 	public String getUserId() {
 		return userId;
 	}
 
-	@Override
 	public String getEmail() {
 		return email;
 	}
 
-	@Override
 	public String getPhone() {
 		return phone;
 	}
 
-	@Override
 	public String getName() {
 		return name;
 	}
 
-	@Override
 	public String getAddress() {
 		return address;
 	}
 
-	@Override
 	public String getNationality() {
 		return nationality;
 	}
 
-	@Override
-	public void createHome(String homeId) {
-		homes.push(homeId);
+	public void createHome(Home home) {
+		hostedHomes.addLast(home);
 	}
 
-	@Override
-	public void removeHome(String homeId) {
-		homes.pop();
+	public void removeHome(String homeID) throws InvalidPositionException, EmptyListException {
+		hostedHomes.remove(searchHome(homeID));
 
 	}
 
-	@Override
+	public boolean hasHome(String homeId) throws InvalidPositionException {
+		return (searchHome(homeId) >= 0);
+
+	}
+
+	private int searchHome(String homeID) throws InvalidPositionException {
+		int result = -1;
+		boolean found = false;
+		for (int i = 0; i < hostedHomes.getSize() && !found; i++) {
+			if (hostedHomes.get(i).getHomeId().equals(homeID)) {
+				result = i;
+				found = true;
+			}
+		}
+		return result;
+
+	}
+
+	public void addStay(Home home) {
+		travelledHomes.addLast(home);
+		home.visitederino();
+
+	}
+
 	public void alterUser(String email, String phone, String name, String address, String nationality) {
 		this.email = email;
 		this.phone = phone;
 		this.address = address;
 		this.nationality = nationality;
 	}
+
+	public boolean hasHomes() {
+		return (hostedHomes.getSize() > 0);
+	}
+
 }
