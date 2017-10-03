@@ -3,6 +3,7 @@ package uber;
 import eds.EmptyListException;
 import eds.InvalidPositionException;
 import eds.TwoWayIterator;
+import exceptions.NoResultsException;
 import exceptions.PropertyExistsException;
 import exceptions.PropertyInexistantException;
 import exceptions.PropertyVisitedException;
@@ -44,6 +45,10 @@ public interface UberInterface {
 	
 	TwoWayIterator<Home> travalledHomesIteratorr(String userId)
 			throws InvalidPositionException, EmptyListException, UserNotTravalledException, UserInexistantException;
+	
+	TwoWayIterator<Home> platformHousesIterator(int people, String local) throws NoResultsException, InvalidPositionException, EmptyListException;
+
+	
 
 
 }

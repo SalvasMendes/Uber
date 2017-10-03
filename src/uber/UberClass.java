@@ -242,6 +242,27 @@ public class UberClass implements UberInterface {
 
 	}
 
+	public TwoWayIterator<Home> platformHousesIterator(int people, String local)
+			throws NoResultsException, InvalidPositionException, EmptyListException {
+
+		DLList<Home> tempList = new LinkedList<Home>();
+		TwoWayIterator<Home> it = new TwoWayIteratorClass<>(homes.getFirst(), homes.getLast());
+
+		while (it.hasNext()) {
+			Home home = it.next();
+			if (home.getCap() == people && home.getLocal().equals(local)) {
+				tempList.addFirst(home);
+			}
+		}
+
+		if (tempList.getSize() == 0)
+			throw new NoResultsException();
+		else {
+
+			return new TwoWayIteratorClass<>(tempList.getFirst(), tempList.getLast());
+		}
+	}
+
 	public TwoWayIterator<Home> hostedHomesIteratorr(String userId)
 			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException {
 
@@ -273,6 +294,7 @@ public class UberClass implements UberInterface {
 		}
 	}
 
-	// TODO 1 sort para iterador, metodo de search, 1 exeçao de dados invalidos e na main o addstay.
+	// TODO 1 sort para iterador, metodo de search, 1 exeçao de dados invalidos
+	// e na main o addstay.
 
 }

@@ -81,7 +81,30 @@ public class Main {
 	}
 
 	private static void searchProperty(Scanner in, UberInterface ub) {
-		// TODO Auto-generated method stub
+
+		try {
+			int people = in.nextInt();
+			String local = in.next();
+			in.nextLine();
+
+			TwoWayIterator<Home> it = ub.platformHousesIterator(people, local);
+			while (it.hasNext()) {
+				Home home = it.next();
+
+				System.out.printf("%s %s %s %s %d %d %d", home.getHomeId(), home.getDescription(), home.getAddress(),
+						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
+			}
+			
+			//TODO dados invalidos -->execao
+		} catch (NoResultsException e) {
+			System.out.println(e.getMessage());
+
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+
+		} catch (EmptyListException e) {
+			System.out.println(e.getMessage());
+		}
 
 	}
 
@@ -135,12 +158,10 @@ public class Main {
 	}
 
 	private static void addStay(Scanner in, UberInterface ub) {
-		// TODO o addstay com pontos e sem pontos e todo feito aqui
 
 		String userId = in.next();
 		String homeId = in.next();
-		int points = in.nextInt();
-		in.nextLine();
+
 		// ub.addStay(userId, homeId, points);
 
 	}
