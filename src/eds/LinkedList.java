@@ -15,7 +15,7 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 	}
 
 	/*
-	 * Falta ----> exeçao da lista ITERADOR MEPUTO
+	 * 
 	 * 
 	 */
 
@@ -79,22 +79,22 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 
 	}
 
-	public E getFirst() throws EmptyListException {
+	public Node<E> getFirst() throws EmptyListException {
 
 		if (size == 0) {
 			throw new EmptyListException();
 		}
 
-		return head.getObject();
+		return head;
 	}
 
-	public E getLast() throws EmptyListException {
+	public Node<E> getLast() throws EmptyListException {
 
 		if (size == 0) {
 			throw new EmptyListException();
 		}
 
-		return tail.getObject();
+		return tail;
 	}
 
 	public E get(int n) throws InvalidPositionException {

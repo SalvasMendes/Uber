@@ -51,12 +51,18 @@ public class UserClass implements UserInterface, java.io.Serializable {
 
 	public void removeHome(String homeID) throws InvalidPositionException, EmptyListException {
 		hostedHomes.remove(searchHome(homeID));
+		//TODO refazer --> percorrer a lista 2 vezes
 
 	}
 
 	public boolean hasHome(String homeId) throws InvalidPositionException {
 		return (searchHome(homeId) >= 0);
 
+	}
+	
+	public TwoWayIterator<Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException{
+		return new TwoWayIteratorClass<Home>(hostedHomes.getFirst(), hostedHomes.getLast());
+		
 	}
 
 	private int searchHome(String homeID) throws InvalidPositionException {
@@ -78,15 +84,18 @@ public class UserClass implements UserInterface, java.io.Serializable {
 
 	}
 
-	public void alterUser(String email, String phone, String name, String address, String nationality) {
+	public void alterUser(String email, String phone, String address) {
 		this.email = email;
 		this.phone = phone;
 		this.address = address;
-		this.nationality = nationality;
 	}
 
 	public boolean hasHomes() {
 		return (hostedHomes.getSize() > 0);
+	}
+
+	public TwoWayIterator<Home> travalledHomesIterator() throws InvalidPositionException, EmptyListException {
+		return new TwoWayIteratorClass<>(hostedHomes.getFirst(), travelledHomes.getLast());
 	}
 
 }

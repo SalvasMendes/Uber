@@ -10,9 +10,9 @@ public interface DLList<E> {
 
 	void add(E object, int pos) throws InvalidPositionException;
 
-	E getFirst() throws EmptyListException;
+	Node<E> getFirst() throws EmptyListException;
 
-	E getLast() throws EmptyListException;
+	Node<E> getLast() throws EmptyListException;
 
 	E get(int n) throws  InvalidPositionException;
 

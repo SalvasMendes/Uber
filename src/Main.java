@@ -1,9 +1,236 @@
+import java.util.Scanner;
+
+import eds.*;
+import exceptions.*;
+import home.*;
+import uber.*;
+import user.*;
 
 public class Main {
 
-	public static void main(String[] args) {
-		
+	private static final String QUIT = "XS";
+	private static final String REGIST_USER = "IU";
+	private static final String EDIT_USER = "UU";
+	private static final String REMOVE_USER = "RU";
+	private static final String CHECK_USER = "GU";
+	private static final String ADD_HOUSE = "AH";
+	private static final String REMOVE_HOUSE = "RH";
+	private static final String CHECK_HOUSE = "GH";
+	private static final String ADD_STAY = "AT";
+	private static final String LIST_HOST = "LH";
+	private static final String LIST_TRAVELLER = "LT";
+	private static final String SEARCH_PROPERTY = "PH";
+	private static final String LIST_BEST = "LB";
 
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		UberInterface ub = new UberClass();
+		String op = getCommand(in);
+
+		while (!op.equals(QUIT)) {
+			switch (op) {
+			case REGIST_USER:
+				registUser(in, ub);
+				break;
+			case EDIT_USER:
+				editUser(in, ub);
+				break;
+			case REMOVE_USER:
+				removeUser(in, ub);
+				break;
+			case CHECK_USER:
+				checkUser(in, ub);
+				break;
+			case ADD_HOUSE:
+				addHouse(in, ub);
+				break;
+			case REMOVE_HOUSE:
+				removeHouse(in, ub);
+				break;
+			case CHECK_HOUSE:
+				checkHouse(in, ub);
+				break;
+			case ADD_STAY:
+				addStay(in, ub);
+				break;
+			case LIST_HOST:
+				listHost(in, ub);
+				break;
+			case LIST_TRAVELLER:
+				listTraveller(in, ub);
+				break;
+			case SEARCH_PROPERTY:
+				searchProperty(in, ub);
+				break;
+			case LIST_BEST:
+				listBest(in, ub);
+				break;
+			}
+			System.out.println();
+			op = getCommand(in);
+		}
+		System.out.println("Gravando e terminando...");
+		System.out.println();
+		in.close();
+
+	}
+
+	private static void listBest(Scanner in, UberInterface ub) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private static void searchProperty(Scanner in, UberInterface ub) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private static void listTraveller(Scanner in, UberInterface ub) {
+		// TODO Auto-generated method stub
+
+	}
+
+	private static void listHost(Scanner in, UberInterface ub) {
+
+	}
+
+	private static void addStay(Scanner in, UberInterface ub) {
+		// TODO o addstay com pontos e sem pontos e todo feito aqui
+
+		String userId = in.next();
+		String homeId = in.next();
+		int points = in.nextInt();
+		in.nextLine();
+		//ub.addStay(userId, homeId, points);
+
+	}
+
+	private static void checkHouse(Scanner in, UberInterface ub) {
+		String homeId = in.next();
+		in.nextLine();
+		Home home = null;
+		try {
+			home = ub.homeInfo(homeId);
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+		} catch (PropertyInexistantException e) {
+			System.out.println(e.getMessage());
+
+		}
+		System.out.printf("%s: %s, %s, %d, %d, %d, %s", home.getDescription(), home.getLocal(), home.getPrice(),
+				home.getCap(), home.getScore(), home.getOwner().getName());
+	}
+
+	private static void removeHouse(Scanner in, UberInterface ub) {
+		String homeId = in.next();
+		in.nextLine();
+		try {
+			ub.removeHome(homeId);
+		} catch (EmptyListException e) {
+			System.out.println(e.getMessage());
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+		} catch (PropertyInexistantException e) {
+			System.out.println(e.getMessage());
+		} catch (PropertyVisitedException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("Propriedade removida com sucesso.");
+	}
+
+	private static void addHouse(Scanner in, UberInterface ub) {
+		String homeId = in.next();
+		String userId = in.next();
+		int price = in.nextInt();
+		int cap = in.nextInt();
+		String local = in.next();
+		in.nextLine();
+		String description = in.nextLine();
+		String address = in.nextLine();
+		try {
+			ub.createHome(homeId, userId, price, cap, local, description, address);
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+		} catch (PropertyExistsException e) {
+			System.out.println(e.getMessage());
+		} catch (UserInexistantException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("Propriedade adicionada com sucesso.");
+	}
+
+	private static void checkUser(Scanner in, UberInterface ub) {
+		String userId = in.next();
+		in.nextLine();
+		UserInterface user = null;
+		try {
+			user = ub.userInfo(userId);
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+		} catch (UserInexistantException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.printf("%s: %s, %s, %s, %s\n", user.getName(), user.getAddress(), user.getEmail(), user.getPhone());
+
+	}
+
+	private static void removeUser(Scanner in, UberInterface ub) {
+		String userId = in.next();
+		in.nextLine();
+		try {
+			ub.removeUser(userId);
+		} catch (EmptyListException e) {
+			System.out.println(e.getMessage());
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+		} catch (UserInexistantException e) {
+			System.out.println(e.getMessage());
+		} catch (UserHasPlaceException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("Utilizador removido com sucesso.");
+	}
+
+	private static void editUser(Scanner in, UberInterface ub) {
+		String userId = in.next();
+		String email = in.next();
+		String phone = in.next();
+		in.nextLine();
+		String address = in.nextLine();
+		try {
+			ub.alterUser(userId, email, phone, address);
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+		} catch (UserInexistantException e) {
+			System.out.println(e.getMessage());
+		}
+		System.out.println("Utilizador atualizado com sucesso.");
+	}
+
+	private static void registUser(Scanner in, UberInterface ub) {
+
+		String userId = in.next();
+		String email = in.next();
+		String phone = in.next();
+		String name = in.next();
+		in.nextLine();
+		String nationality = in.nextLine();
+		String address = in.nextLine();
+		try {
+			ub.createUser(userId, email, phone, name, address, nationality);
+		} catch (UserExistException e) {
+			System.out.println(e.getMessage());
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+
+		}
+		System.out.println("Insercao de utilizador com sucesso.");
+	}
+
+	private static String getCommand(Scanner in) {
+		String s;
+		s = in.next().toUpperCase();
+		return s;
 	}
 
 }

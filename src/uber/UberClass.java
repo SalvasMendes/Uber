@@ -1,8 +1,6 @@
 package uber;
 
 import java.io.*;
-import java.util.Scanner;
-
 import eds.*;
 import exceptions.*;
 import home.*;
@@ -37,7 +35,7 @@ public class UberClass implements UberInterface {
 		try {
 			FileInputStream fileIn = new FileInputStream("homes.ser");
 			ObjectInputStream objIn = new ObjectInputStream(fileIn);
-			users = (DLList<UserInterface>) objIn.readObject();
+			homes = (DLList<Home>) objIn.readObject();
 			objIn.close();
 			fileIn.close();
 		} catch (FileNotFoundException fnf) {
@@ -87,12 +85,12 @@ public class UberClass implements UberInterface {
 		}
 	}
 
-	public void alterUser(String userId, String email, String phone, String name, String address, String nationality)
+	public void alterUser(String userId, String email, String phone, String address)
 			throws UserInexistantException, InvalidPositionException {
 
 		if (searchUsers(userId) == -1)
 			throw new UserInexistantException();
-		users.get(searchUsers(userId)).alterUser(email, phone, name, address, nationality);
+		users.get(searchUsers(userId)).alterUser(email, phone, address);
 
 	}
 
@@ -240,8 +238,17 @@ public class UberClass implements UberInterface {
 		return result;
 
 	}
+	
+	public TwoWayIterator<Home> hostedHomesIteratorr(String userId) throws InvalidPositionException, EmptyListException{
+		return users.get(searchUsers(userId)).hostedHomesIterator();
+		
+	}
+	
+	public TwoWayIterator<Home> travalledHomesIteratorr(String userId) throws InvalidPositionException, EmptyListException{
+		return users.get(searchUsers(userId)).travalledHomesIterator();
+	}
+	
 
-	// TODO 4 iteradores. 1 metodo de sort por int. Serialize. Merda gay da
-	// eficiencia das procuras.
+	// TODO 1 sort para iterador, metodo de search e a cena das eficiencias
 
 }

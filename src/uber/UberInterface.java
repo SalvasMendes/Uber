@@ -2,6 +2,7 @@ package uber;
 
 import eds.EmptyListException;
 import eds.InvalidPositionException;
+import eds.TwoWayIterator;
 import exceptions.PropertyExistsException;
 import exceptions.PropertyInexistantException;
 import exceptions.PropertyVisitedException;
@@ -20,7 +21,7 @@ public interface UberInterface {
 	void createHome(String homeId, String userId, int price, int cap, String local, String description, String address)
 			throws InvalidPositionException, PropertyExistsException, UserInexistantException;
 
-	void alterUser(String userId, String email, String phone, String name, String address, String nationality)
+	void alterUser(String userId, String email, String phone, String address)
 			throws InvalidPositionException, UserInexistantException;
 
 	void removeUser(String userId) throws EmptyListException, InvalidPositionException, UserInexistantException, UserHasPlaceException;
@@ -36,5 +37,10 @@ public interface UberInterface {
 	void addStayNoPoints(String userId, String homeId, int points) throws InvalidPositionException, UserInexistantException, PropertyInexistantException, TravellerIsNotHostException;
 	
 	void saveStatus();
+	
+	TwoWayIterator<Home> hostedHomesIteratorr(String userId) throws InvalidPositionException, EmptyListException;
+	
+	TwoWayIterator<Home> travalledHomesIteratorr(String userId) throws InvalidPositionException, EmptyListException;
+
 
 }
