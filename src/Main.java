@@ -86,11 +86,51 @@ public class Main {
 	}
 
 	private static void listTraveller(Scanner in, UberInterface ub) {
-		// TODO Auto-generated method stub
+		String userId = in.next();
+		in.nextLine();
+
+		try {
+			TwoWayIterator<Home> it = ub.travalledHomesIteratorr(userId);
+			it.fullForward();
+			while (it.hasPrevious()) {
+				Home home = it.next();
+				System.out.printf("%s %s %s %s %d %d %d", home.getHomeId(), home.getDescription(), home.getAddress(),
+						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
+			}
+		} catch (UserInexistantException e) {
+			System.out.println(e.getMessage());
+		} catch (UserNotTravalledException e) {
+			System.out.println(e.getMessage());
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+		} catch (EmptyListException e) {
+			System.out.println(e.getMessage());
+
+		}
 
 	}
 
 	private static void listHost(Scanner in, UberInterface ub) {
+		String userId = in.next();
+		in.nextLine();
+
+		try {
+			TwoWayIterator<Home> it = ub.hostedHomesIteratorr(userId);
+			while (it.hasNext()) {
+				Home home = it.next();
+				System.out.printf("%s %s %s %s %d %d %d", home.getHomeId(), home.getDescription(), home.getAddress(),
+						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
+			}
+		} catch (UserInexistantException e) {
+			System.out.println(e.getMessage());
+		} catch (UserHasNoHomeException e) {
+			System.out.println(e.getMessage());
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+		} catch (EmptyListException e) {
+			System.out.println(e.getMessage());
+
+		}
 
 	}
 
@@ -101,7 +141,7 @@ public class Main {
 		String homeId = in.next();
 		int points = in.nextInt();
 		in.nextLine();
-		//ub.addStay(userId, homeId, points);
+		// ub.addStay(userId, homeId, points);
 
 	}
 

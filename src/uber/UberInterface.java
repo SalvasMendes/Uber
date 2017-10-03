@@ -9,8 +9,10 @@ import exceptions.PropertyVisitedException;
 import exceptions.TravellerIsHostException;
 import exceptions.TravellerIsNotHostException;
 import exceptions.UserExistException;
+import exceptions.UserHasNoHomeException;
 import exceptions.UserHasPlaceException;
 import exceptions.UserInexistantException;
+import exceptions.UserNotTravalledException;
 import home.Home;
 import user.UserInterface;
 
@@ -38,9 +40,10 @@ public interface UberInterface {
 	
 	void saveStatus();
 	
-	TwoWayIterator<Home> hostedHomesIteratorr(String userId) throws InvalidPositionException, EmptyListException;
+	TwoWayIterator<Home> hostedHomesIteratorr(String userId) throws InvalidPositionException, EmptyListException, UserInexistantException, UserHasNoHomeException;
 	
-	TwoWayIterator<Home> travalledHomesIteratorr(String userId) throws InvalidPositionException, EmptyListException;
+	TwoWayIterator<Home> travalledHomesIteratorr(String userId)
+			throws InvalidPositionException, EmptyListException, UserNotTravalledException, UserInexistantException;
 
 
 }

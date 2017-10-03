@@ -35,4 +35,5 @@ public interface UserInterface {
 	
 	TwoWayIterator<Home> travalledHomesIterator() throws InvalidPositionException, EmptyListException;
 
+	boolean hasTravelled();
 }

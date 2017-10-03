@@ -150,45 +150,50 @@ public class UberClass implements UberInterface {
 		// Dados invalidos exeçao, ask prof
 
 		int user = searchUsers(userId);
-		int pos = searchHome(homeId);
 
-		if (user == -1)
+		if (user == -1) {
 			throw new UserInexistantException();
 
-		else if (pos == -1)
-			throw new PropertyInexistantException();
+		} else {
 
-		else if (users.get(pos).hasHome(homeId))
-			throw new TravellerIsHostException();
+			int pos = searchHome(homeId);
+			if (pos == -1)
+				throw new PropertyInexistantException();
 
-		else {
-			homes.get(pos).addScore(points);
-			users.get(user).addStay(homes.get(pos));
+			else if (users.get(pos).hasHome(homeId))
+				throw new TravellerIsHostException();
+
+			else {
+				homes.get(pos).addScore(points);
+				users.get(user).addStay(homes.get(pos));
+			}
 		}
-
 	}
 
 	public void addStayNoPoints(String userId, String homeId, int points) throws UserInexistantException,
 			PropertyInexistantException, TravellerIsNotHostException, InvalidPositionException {
 
 		int user = searchUsers(userId);
-		int home = searchHome(homeId);
 
-		if (user == -1)
+		if (user == -1) {
 			throw new UserInexistantException();
 
-		else if (home == -1)
-			throw new PropertyInexistantException();
+		} else {
 
-		else if (!(users.get(user).hasHome(homeId)))
-			throw new TravellerIsNotHostException();
+			int home = searchHome(homeId);
+			if (home == -1)
 
-		else {
-			users.get(user).addStay(homes.get(home));
+				throw new PropertyInexistantException();
+
+			else if (!(users.get(user).hasHome(homeId)))
+				throw new TravellerIsNotHostException();
+
+			else {
+				users.get(user).addStay(homes.get(home));
+			}
 		}
-
 	}
-	
+
 	public void saveStatus() {
 		try {
 			FileOutputStream fileOut = new FileOutputStream("users.ser");
@@ -196,19 +201,17 @@ public class UberClass implements UberInterface {
 			out.writeObject(users);
 			out.close();
 			fileOut.close();
-		}
-		catch(IOException i){
+		} catch (IOException i) {
 			i.printStackTrace();
 		}
-		
+
 		try {
 			FileOutputStream fileOut = new FileOutputStream("homes.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(homes);
 			out.close();
 			fileOut.close();
-		}
-		catch(IOException i){
+		} catch (IOException i) {
 			i.printStackTrace();
 		}
 	}
@@ -238,17 +241,38 @@ public class UberClass implements UberInterface {
 		return result;
 
 	}
-	
-	public TwoWayIterator<Home> hostedHomesIteratorr(String userId) throws InvalidPositionException, EmptyListException{
-		return users.get(searchUsers(userId)).hostedHomesIterator();
-		
-	}
-	
-	public TwoWayIterator<Home> travalledHomesIteratorr(String userId) throws InvalidPositionException, EmptyListException{
-		return users.get(searchUsers(userId)).travalledHomesIterator();
-	}
-	
 
-	// TODO 1 sort para iterador, metodo de search e a cena das eficiencias
+	public TwoWayIterator<Home> hostedHomesIteratorr(String userId)
+			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException {
+
+		int user = searchUsers(userId);
+
+		if (user == -1)
+			throw new UserInexistantException();
+
+		else if (!users.get(user).hasHomes())
+			throw new UserHasNoHomeException();
+
+		else {
+			return users.get(user).hostedHomesIterator();
+		}
+	}
+
+	public TwoWayIterator<Home> travalledHomesIteratorr(String userId)
+			throws UserInexistantException, UserNotTravalledException, InvalidPositionException, EmptyListException {
+
+		int user = searchUsers(userId);
+
+		if (user == -1)
+			throw new UserInexistantException();
+
+		else if (!users.get(user).hasTravelled())
+			throw new UserNotTravalledException();
+		else {
+			return users.get(searchUsers(userId)).travalledHomesIterator();
+		}
+	}
+
+	// TODO 1 sort para iterador, metodo de search, 1 exeçao de dados invalidos e na main o addstay.
 
 }
