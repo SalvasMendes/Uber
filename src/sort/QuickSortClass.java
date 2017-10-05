@@ -31,7 +31,7 @@ public class QuickSortClass implements QuickSort {
 				h--;
 			}
 			if (l <= h) {
-				swap(l, h);
+				tempList.swapNode(l, h);
 				l++;
 				h--;
 			}
@@ -41,11 +41,4 @@ public class QuickSortClass implements QuickSort {
 		if (h < end)
 			sort(h, end);
 	}
-
-	private void swap(int i, int k) {
-		Home temp = tempList.get(i);
-		tempList.get(i) = tempList.get(k);
-		tempList.get(k) = temp;
-	}
-
 }
