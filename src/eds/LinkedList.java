@@ -1,6 +1,5 @@
 package eds;
 
-
 public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 
 	private static final long serialVersionUID = -3182045828000433499L;
@@ -246,6 +245,22 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 				this.removeMid(node);
 		}
 		return true;
+	}
+
+	public void swapNode(int a, int b) throws InvalidPositionException {
+		Node<E> nodeA = this.getNode(a);
+		Node<E> nodeB = this.getNode(b);
+
+		Node<E> nodeANext = nodeA.getNext();
+		Node<E> nodeAPrev = nodeA.getPrevious();
+		Node<E> nodeBPrev = nodeB.getPrevious();
+		Node<E> nodeBNext = nodeB.getNext();
+
+		nodeA.setNext(nodeBNext);
+		nodeB.setNext(nodeANext);
+		nodeB.setPrevious(nodeAPrev);
+		nodeA.setPrevious(nodeBPrev);
+
 	}
 
 	public int getSize() {

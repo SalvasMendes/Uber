@@ -33,5 +33,7 @@ public interface DLList<E> {
 	boolean isEmpty();
 	
 	boolean remove(E element) throws InvalidPositionException;
+	
+	void swapNode(int a, int b) throws InvalidPositionException;
 
 }

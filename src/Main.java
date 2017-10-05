@@ -94,8 +94,8 @@ public class Main {
 				System.out.printf("%s %s %s %s %d %d %d", home.getHomeId(), home.getDescription(), home.getAddress(),
 						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
 			}
-			
-			//TODO dados invalidos -->execao
+
+			// TODO dados invalidos -->execao
 		} catch (NoResultsException e) {
 			System.out.println(e.getMessage());
 
