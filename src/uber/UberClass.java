@@ -69,8 +69,6 @@ public class UberClass implements UberInterface {
 	public void createHome(String homeId, String userId, int price, int cap, String local, String description,
 			String address) throws UserInexistantException, PropertyExistsException, InvalidPositionException {
 
-		// Exeçao da puta de dados invalidos, falar com stora
-
 		if (searchUsers(userId) == -1)
 			throw new UserInexistantException();
 
@@ -147,8 +145,6 @@ public class UberClass implements UberInterface {
 
 	public void addStay(String userId, String homeId, int points) throws UserInexistantException,
 			PropertyInexistantException, TravellerIsHostException, InvalidPositionException {
-
-		// Dados invalidos exeçao, ask prof
 
 		int user = searchUsers(userId);
 
@@ -316,7 +312,6 @@ public class UberClass implements UberInterface {
 		}
 	}
 
-	// TODO 1 sort para iterador, metodo de search, 1 exeçao de dados invalidos
-	// e na main o addstay.
+	// TODO addStay e exeçao de dados invalidos do addstay.
 
 }

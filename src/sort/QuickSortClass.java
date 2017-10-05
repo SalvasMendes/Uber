@@ -54,7 +54,7 @@ public class QuickSortClass implements QuickSort {
 	private void idSort(int start, int end) throws InvalidPositionException {
 		int l = start;
 		int h = end;
-		int result;
+		
 
 		String pivot = tempList.get((l + (h - l)) / 2).getHomeId();
 

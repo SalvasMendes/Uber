@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import eds.*;
@@ -77,7 +78,28 @@ public class Main {
 	}
 
 	private static void listBest(Scanner in, UberInterface ub) {
-		// TODO Auto-generated method stub
+		String local = in.next();
+		in.nextLine();
+
+		try {
+			TwoWayIterator<Home> it = ub.bestHomesIterator(local);
+			while (it.hasNext()) {
+				Home home = it.next();
+
+				System.out.printf("%s %s %s %s %d %d %d", home.getHomeId(), home.getDescription(), home.getAddress(),
+						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
+
+			}
+
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+
+		} catch (EmptyListException e) {
+			System.out.println(e.getMessage());
+
+		} catch (NoResultsException e) {
+			System.out.println(e.getMessage());
+		}
 
 	}
 
@@ -96,7 +118,10 @@ public class Main {
 						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
 			}
 
-			// TODO dados invalidos -->execao
+		} catch (InputMismatchException e) {
+			System.out.println("Dados invalidos.");
+			in.nextLine();
+
 		} catch (NoResultsException e) {
 			System.out.println(e.getMessage());
 
@@ -114,7 +139,7 @@ public class Main {
 		in.nextLine();
 
 		try {
-			TwoWayIterator<Home> it = ub.travalledHomesIteratorr(userId);
+			TwoWayIterator<Home> it = ub.travalledHomesIterator(userId);
 			it.fullForward();
 			while (it.hasPrevious()) {
 				Home home = it.next();
@@ -139,7 +164,7 @@ public class Main {
 		in.nextLine();
 
 		try {
-			TwoWayIterator<Home> it = ub.hostedHomesIteratorr(userId);
+			TwoWayIterator<Home> it = ub.hostedHomesIterator(userId);
 			while (it.hasNext()) {
 				Home home = it.next();
 				System.out.printf("%s %s %s %s %d %d %d", home.getHomeId(), home.getDescription(), home.getAddress(),
@@ -201,16 +226,21 @@ public class Main {
 	}
 
 	private static void addHouse(Scanner in, UberInterface ub) {
-		String homeId = in.next();
-		String userId = in.next();
-		int price = in.nextInt();
-		int cap = in.nextInt();
-		String local = in.next();
-		in.nextLine();
-		String description = in.nextLine();
-		String address = in.nextLine();
 		try {
+
+			String homeId = in.next();
+			String userId = in.next();
+			int price = in.nextInt();
+			int cap = in.nextInt();
+			String local = in.next();
+			in.nextLine();
+			String description = in.nextLine();
+			String address = in.nextLine();
+
 			ub.createHome(homeId, userId, price, cap, local, description, address);
+		} catch (InputMismatchException e) {
+			System.out.println("Dados invalidos.");
+			in.nextLine();
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
 		} catch (PropertyExistsException e) {
