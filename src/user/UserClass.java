@@ -2,6 +2,7 @@ package user;
 
 import eds.*;
 import home.*;
+import sort.*;
 
 public class UserClass implements UserInterface, java.io.Serializable {
 
@@ -61,6 +62,8 @@ public class UserClass implements UserInterface, java.io.Serializable {
 	}
 
 	public TwoWayIterator<Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException {
+		QuickSort qs = new QuickSortClass();
+		qs.sortID(hostedHomes);
 		return new TwoWayIteratorClass<Home>(hostedHomes.getFirst(), hostedHomes.getLast());
 
 	}

@@ -14,10 +14,19 @@ public class QuickSortClass implements QuickSort {
 		}
 		tempList = homes;
 		size = homes.getSize();
-		sort(0, size - 1);
+		scoreSort(0, size - 1);
 	}
 
-	private void sort(int start, int end) throws InvalidPositionException {
+	public void sortID(DLList<Home> homes) throws InvalidPositionException {
+		if (homes == null || homes.getSize() == 0) {
+			return;
+		}
+		tempList = homes;
+		size = homes.getSize();
+		idSort(0, size - 1);
+	}
+
+	private void scoreSort(int start, int end) throws InvalidPositionException {
 		int l = start;
 		int h = end;
 
@@ -37,8 +46,35 @@ public class QuickSortClass implements QuickSort {
 			}
 		}
 		if (start < l)
-			sort(start, l);
+			scoreSort(start, l);
 		if (h < end)
-			sort(h, end);
+			scoreSort(h, end);
 	}
+
+	private void idSort(int start, int end) throws InvalidPositionException {
+		int l = start;
+		int h = end;
+		int result;
+
+		String pivot = tempList.get((l + (h - l)) / 2).getHomeId();
+
+		while (l <= h) {
+			while (tempList.get(l).getHomeId().compareTo(pivot) < 0) {
+				l++;
+			}
+			while (tempList.get(l).getHomeId().compareTo(pivot) > 0) {
+				h--;
+			}
+			if (l <= h) {
+				tempList.swapNode(l, h);
+				l++;
+				h--;
+			}
+		}
+		if (start < l)
+			idSort(start, l);
+		if (h < end)
+			idSort(h, end);
+	}
+
 }

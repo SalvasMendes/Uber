@@ -71,6 +71,7 @@ public class Main {
 		}
 		System.out.println("Gravando e terminando...");
 		System.out.println();
+		ub.saveStatus();
 		in.close();
 
 	}

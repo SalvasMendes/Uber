@@ -4,6 +4,7 @@ import java.io.*;
 import eds.*;
 import exceptions.*;
 import home.*;
+import sort.*;
 import user.*;
 
 public class UberClass implements UberInterface {
@@ -247,6 +248,7 @@ public class UberClass implements UberInterface {
 
 		DLList<Home> tempList = new LinkedList<Home>();
 		TwoWayIterator<Home> it = new TwoWayIteratorClass<>(homes.getFirst(), homes.getLast());
+		QuickSort qs = new QuickSortClass();
 
 		while (it.hasNext()) {
 			Home home = it.next();
@@ -258,12 +260,12 @@ public class UberClass implements UberInterface {
 		if (tempList.getSize() == 0)
 			throw new NoResultsException();
 		else {
-
+			qs.sortID(tempList);
 			return new TwoWayIteratorClass<>(tempList.getFirst(), tempList.getLast());
 		}
 	}
 
-	public TwoWayIterator<Home> hostedHomesIteratorr(String userId)
+	public TwoWayIterator<Home> hostedHomesIterator(String userId)
 			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException {
 
 		int user = searchUsers(userId);
@@ -279,7 +281,7 @@ public class UberClass implements UberInterface {
 		}
 	}
 
-	public TwoWayIterator<Home> travalledHomesIteratorr(String userId)
+	public TwoWayIterator<Home> travalledHomesIterator(String userId)
 			throws UserInexistantException, UserNotTravalledException, InvalidPositionException, EmptyListException {
 
 		int user = searchUsers(userId);
@@ -291,6 +293,26 @@ public class UberClass implements UberInterface {
 			throw new UserNotTravalledException();
 		else {
 			return users.get(searchUsers(userId)).travalledHomesIterator();
+		}
+	}
+
+	public TwoWayIterator<Home> bestHomesIterator(String local)
+			throws InvalidPositionException, EmptyListException, NoResultsException {
+		DLList<Home> tempList = new LinkedList<Home>();
+		QuickSort qs = new QuickSortClass();
+		TwoWayIterator<Home> it = new TwoWayIteratorClass<>(homes.getFirst(), homes.getLast());
+
+		while (it.hasNext()) {
+			Home home = it.next();
+			if (home.getLocal().equals(local)) {
+				tempList.addFirst(home);
+			}
+		}
+		if (tempList.getSize() == 0)
+			throw new NoResultsException();
+		else {
+			qs.sortScore(tempList);
+			return new TwoWayIteratorClass<>(tempList.getFirst(), tempList.getLast());
 		}
 	}
 

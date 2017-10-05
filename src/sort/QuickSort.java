@@ -8,4 +8,6 @@ public interface QuickSort {
 
 	void sortScore(DLList<Home> homes) throws InvalidPositionException;
 
+	void sortID(DLList<Home> homes) throws InvalidPositionException;
+
 }

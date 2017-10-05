@@ -41,14 +41,14 @@ public interface UberInterface {
 	
 	void saveStatus();
 	
-	TwoWayIterator<Home> hostedHomesIteratorr(String userId) throws InvalidPositionException, EmptyListException, UserInexistantException, UserHasNoHomeException;
+	TwoWayIterator<Home> hostedHomesIterator(String userId) throws InvalidPositionException, EmptyListException, UserInexistantException, UserHasNoHomeException;
 	
-	TwoWayIterator<Home> travalledHomesIteratorr(String userId)
+	TwoWayIterator<Home> travalledHomesIterator(String userId)
 			throws InvalidPositionException, EmptyListException, UserNotTravalledException, UserInexistantException;
 	
 	TwoWayIterator<Home> platformHousesIterator(int people, String local) throws NoResultsException, InvalidPositionException, EmptyListException;
 
-	
+	TwoWayIterator<Home> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException, NoResultsException;
 
 
 }

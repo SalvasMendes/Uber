@@ -1,5 +1,7 @@
 package eds;
 
+import home.Home;
+
 public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 
 	private static final long serialVersionUID = -3182045828000433499L;

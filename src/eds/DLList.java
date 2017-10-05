@@ -1,5 +1,7 @@
 package eds;
 
+import sort.QuickSort;
+
 public interface DLList<E> {
 
 	void addFirst(E object);
