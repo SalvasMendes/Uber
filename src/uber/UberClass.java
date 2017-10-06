@@ -167,7 +167,7 @@ public class UberClass implements UberInterface {
 		}
 	}
 
-	public void addStayNoPoints(String userId, String homeId, int points) throws UserInexistantException,
+	public void addStayNoPoints(String userId, String homeId) throws UserInexistantException,
 			PropertyInexistantException, TravellerIsNotHostException, InvalidPositionException {
 
 		int user = searchUsers(userId);

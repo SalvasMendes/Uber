@@ -37,7 +37,7 @@ public interface UberInterface {
 
 	void addStay(String userId, String homeId, int points) throws InvalidPositionException, UserInexistantException, PropertyInexistantException, TravellerIsHostException;
 
-	void addStayNoPoints(String userId, String homeId, int points) throws InvalidPositionException, UserInexistantException, PropertyInexistantException, TravellerIsNotHostException;
+	void addStayNoPoints(String userId, String homeId) throws InvalidPositionException, UserInexistantException, PropertyInexistantException, TravellerIsNotHostException;
 	
 	void saveStatus();
 	

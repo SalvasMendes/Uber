@@ -23,7 +23,7 @@ public class Main {
 	private static final String SEARCH_PROPERTY = "PH";
 	private static final String LIST_BEST = "LB";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InvalidPositionException, UserInexistantException, PropertyInexistantException, TravellerIsHostException, TravellerIsNotHostException {
 		Scanner in = new Scanner(System.in);
 		UberInterface ub = new UberClass();
 		String op = getCommand(in);
@@ -183,10 +183,37 @@ public class Main {
 
 	}
 
-	private static void addStay(Scanner in, UberInterface ub) {
+	private static void addStay(Scanner in, UberInterface ub) throws InvalidPositionException, UserInexistantException,
+			PropertyInexistantException, TravellerIsHostException, TravellerIsNotHostException {
 
 		String userId = in.next();
 		String homeId = in.next();
+		String tempPoint = in.nextLine();
+		int points;
+		try {
+			points = Integer.parseInt(tempPoint.trim());
+			ub.addStay(userId, homeId, points);
+		} catch (NumberFormatException nfe) {
+			try {
+				ub.addStayNoPoints(userId, homeId);
+			} catch (InvalidPositionException e) {
+				System.out.println(e.getMessage());
+			} catch (PropertyInexistantException e) {
+				System.out.println(e.getMessage());
+			} catch (UserInexistantException e) {
+				System.out.println(e.getMessage());
+			} catch (TravellerIsNotHostException e) {
+				System.out.println(e.getMessage());
+			}
+		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+		} catch (PropertyInexistantException e) {
+			System.out.println(e.getMessage());
+		} catch (UserInexistantException e) {
+			System.out.println(e.getMessage());
+		} catch (TravellerIsHostException e) {
+			System.out.println(e.getMessage());
+		}
 
 		// ub.addStay(userId, homeId, points);
 
