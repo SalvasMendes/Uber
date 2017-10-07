@@ -226,8 +226,7 @@ public class Main {
 		Home home = null;
 		try {
 			home = ub.homeInfo(homeId);
-			System.out.printf("%s: %s, %s, %d, %d, %d, %s", home.getDescription(), home.getLocal(), home.getPrice(),
-					home.getCap(), home.getScore(), home.getOwner().getName());
+			System.out.printf("%s: %s, %s, %d, %d, %d, %s", home.getDescription(), home.getAddress(), home.getLocal(), home.getPrice(), home.getCap(), home.getScore(), home.getOwner().getName());
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
 		} catch (PropertyInexistantException e) {
@@ -241,6 +240,7 @@ public class Main {
 		in.nextLine();
 		try {
 			ub.removeHome(homeId);
+			System.out.println("Propriedade removida com sucesso.");
 		} catch (EmptyListException e) {
 			System.out.println(e.getMessage());
 		} catch (InvalidPositionException e) {
@@ -250,7 +250,6 @@ public class Main {
 		} catch (PropertyVisitedException e) {
 			System.out.println(e.getMessage());
 		}
-		System.out.println("Propriedade removida com sucesso.");
 	}
 
 	private static void addHouse(Scanner in, UberInterface ub) {
@@ -260,8 +259,7 @@ public class Main {
 			String userId = in.next();
 			int price = in.nextInt();
 			int cap = in.nextInt();
-			String local = in.next();
-			in.nextLine();
+			String local = in.nextLine().trim();
 			String description = in.nextLine();
 			String address = in.nextLine();
 
@@ -286,7 +284,8 @@ public class Main {
 		UserInterface user = null;
 		try {
 			user = ub.userInfo(userId);
-			System.out.printf("%s: %s, %s, %s, %s\n", user.getName(), user.getAddress(), user.getNationality(), user.getEmail(), user.getPhone());
+			System.out.printf("%s: %s, %s, %s, %s\n", user.getName(), user.getAddress(), user.getNationality(),
+					user.getEmail(), user.getPhone());
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
 		} catch (UserInexistantException e) {
@@ -320,12 +319,12 @@ public class Main {
 		String address = in.nextLine();
 		try {
 			ub.alterUser(userId, email, phone, address);
+			System.out.println("Utilizador atualizado com sucesso.");
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
 		} catch (UserInexistantException e) {
 			System.out.println(e.getMessage());
 		}
-		System.out.println("Utilizador atualizado com sucesso.");
 	}
 
 	private static void registUser(Scanner in, UberInterface ub) {
@@ -333,8 +332,7 @@ public class Main {
 		String userId = in.next();
 		String email = in.next();
 		String phone = in.next();
-		String name = in.next();
-		in.nextLine();
+		String name = in.nextLine().trim();
 		String nationality = in.nextLine();
 		String address = in.nextLine();
 		try {
@@ -344,7 +342,6 @@ public class Main {
 			System.out.println(e.getMessage());
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
-
 		}
 	}
 

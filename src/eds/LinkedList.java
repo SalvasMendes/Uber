@@ -24,6 +24,7 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 
 		Node<E> newNode = new NodeClass<E>(head, object, null);
 		if (size == 0) {
+			head = newNode;
 			tail = newNode;
 			size++;
 		} else {
@@ -38,6 +39,7 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 		Node<E> newNode = new NodeClass<E>(null, object, tail);
 		if (size == 0) {
 			head = newNode;
+			tail = newNode;
 			size++;
 		} else {
 			tail.setNext(newNode);
@@ -103,8 +105,9 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 	public E get(int n) throws InvalidPositionException {
 		if (n < 0 || n >= size) {
 			throw new InvalidPositionException();
+		} else {
+			return getNode(n).getObject();
 		}
-		return getNode(n).getObject();
 	}
 
 	public Node<E> getNode(int pos) throws InvalidPositionException {
@@ -162,14 +165,15 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 
 	protected void removeFirst() {
 
+		head = head.getNext();
+
 		if (head == null) {
 			tail = null;
+			size--;
+		} else {
+			head.setPrevious(null);
+			size--;
 		}
-
-		Node<E> node = head.getNext();
-		node.setPrevious(null);
-		size--;
-
 	}
 
 	public E removeHead() {
@@ -180,15 +184,14 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 	}
 
 	protected void removeLast() {
-
+		tail = tail.getPrevious();
 		if (tail == null) {
 			head = null;
+			size--;
+		} else {
+			tail.setNext(null);
+			size--;
 		}
-
-		Node<E> node = tail.getPrevious();
-		node.setNext(null);
-		size--;
-
 	}
 
 	public E removeTail() {
@@ -198,7 +201,6 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 	}
 
 	public E remove(int pos) throws EmptyListException, InvalidPositionException {
-
 		if (size == 0) {
 			throw new EmptyListException();
 		}
@@ -209,7 +211,6 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 		else {
 			if (pos == 0)
 				return this.removeHead();
-
 			else if (pos == size - 1) {
 				return this.removeTail();
 			} else {

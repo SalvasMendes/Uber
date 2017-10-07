@@ -1,6 +1,10 @@
 package uber;
 
 import java.io.*;
+import java.util.InputMismatchException;
+
+import javax.xml.bind.PropertyException;
+
 import eds.*;
 import exceptions.*;
 import home.*;
@@ -23,8 +27,6 @@ public class UberClass implements UberInterface {
 			fileIn.close();
 		} catch (FileNotFoundException fnf) {
 			users = new LinkedList<UserInterface>();
-			System.out.println("23123");
-			// fnf.printStackTrace();
 		} catch (IOException i) {
 			i.printStackTrace();
 			return;
@@ -42,8 +44,6 @@ public class UberClass implements UberInterface {
 			fileIn.close();
 		} catch (FileNotFoundException fnf) {
 			homes = new LinkedList<Home>();
-			System.out.println("sdad");
-			// fnf.printStackTrace();
 		} catch (IOException i) {
 			i.printStackTrace();
 			return;
@@ -71,12 +71,16 @@ public class UberClass implements UberInterface {
 	public void createHome(String homeId, String userId, int price, int cap, String local, String description,
 			String address) throws UserInexistantException, PropertyExistsException, InvalidPositionException {
 
-		if (searchUsers(userId) == -1)
+		
+		if(cap > 20 || cap < 1 || price < 0) {
+			throw new InputMismatchException();
+		}
+		else if (searchUsers(userId) == -1) {
 			throw new UserInexistantException();
-
-		else if (searchHome(homeId) >= 0)
+		}
+		else if(searchHome(homeId) > -1) {
 			throw new PropertyExistsException();
-
+		}
 		else {
 
 			UserInterface owner = users.get(searchUsers(userId));
@@ -88,35 +92,34 @@ public class UberClass implements UberInterface {
 
 	public void alterUser(String userId, String email, String phone, String address)
 			throws UserInexistantException, InvalidPositionException {
-
-		if (searchUsers(userId) == -1)
+		int i = searchUsers(userId);
+		if (i == -1)
 			throw new UserInexistantException();
-		users.get(searchUsers(userId)).alterUser(email, phone, address);
-
+		else {
+			users.get(i).alterUser(email, phone, address);
+		}
 	}
 
 	public void removeUser(String userId)
 			throws UserInexistantException, UserHasPlaceException, EmptyListException, InvalidPositionException {
 
-		int user = searchUsers(userId);
+		int i = searchUsers(userId);
 
-		if (user == -1)
+		if (i == -1) {
 			throw new UserInexistantException();
-
-		else if (users.get(user).hasHomes())
+		} else if (users.get(i).hasHomes()) {
 			throw new UserHasPlaceException();
-
-		else {
-			users.remove(searchUsers(userId));
+		} else {
+			users.remove(i);
 		}
 	}
 
 	public UserInterface userInfo(String userId) throws UserInexistantException, InvalidPositionException {
-
-		if (searchUsers(userId) == -1)
+		int i = searchUsers(userId);
+		if (i == -1)
 			throw new UserInexistantException();
 		else {
-			return users.get(searchUsers(userId));
+			return users.get(i);
 		}
 	}
 
@@ -219,7 +222,7 @@ public class UberClass implements UberInterface {
 		int result = -1;
 		boolean found = false;
 		for (int i = 0; i < homes.getSize() && !found; i++) {
-			if (homes.get(i).getHomeId().equals(homeID)) {
+			if (homes.get(i).getHomeId().equalsIgnoreCase(homeID)) {
 				result = i;
 				found = true;
 			}
@@ -232,7 +235,7 @@ public class UberClass implements UberInterface {
 		int result = -1;
 		boolean found = false;
 		for (int i = 0; i < users.getSize() && !found; i++) {
-			if (users.get(i).getUserId().equals(userID)) {
+			if (users.get(i).getUserId().equalsIgnoreCase(userID)) {
 				result = i;
 				found = true;
 			}
