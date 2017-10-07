@@ -18,12 +18,13 @@ public class UberClass implements UberInterface {
 		try {
 			FileInputStream fileIn = new FileInputStream("users.ser");
 			ObjectInputStream objIn = new ObjectInputStream(fileIn);
-			users = (DLList<UserInterface>) objIn.readObject();
+			users = (DLList<UserInterface>) (objIn.readObject());
 			objIn.close();
 			fileIn.close();
 		} catch (FileNotFoundException fnf) {
 			users = new LinkedList<UserInterface>();
-			fnf.printStackTrace();
+			System.out.println("23123");
+			// fnf.printStackTrace();
 		} catch (IOException i) {
 			i.printStackTrace();
 			return;
@@ -41,7 +42,8 @@ public class UberClass implements UberInterface {
 			fileIn.close();
 		} catch (FileNotFoundException fnf) {
 			homes = new LinkedList<Home>();
-			fnf.printStackTrace();
+			System.out.println("sdad");
+			// fnf.printStackTrace();
 		} catch (IOException i) {
 			i.printStackTrace();
 			return;
@@ -58,12 +60,12 @@ public class UberClass implements UberInterface {
 	public void createUser(String userId, String email, String phone, String name, String address, String nationality)
 			throws UserExistException, InvalidPositionException {
 
-		if (searchUsers(userId) >= 0)
+		if (searchUsers(userId) > -1)
 			throw new UserExistException();
-
-		UserInterface user = new UserClass(userId, email, phone, name, address, nationality);
-		users.addLast(user);
-
+		else {
+			UserInterface user = new UserClass(userId, email, phone, name, address, nationality);
+			users.addLast(user);
+		}
 	}
 
 	public void createHome(String homeId, String userId, int price, int cap, String local, String description,
@@ -113,9 +115,9 @@ public class UberClass implements UberInterface {
 
 		if (searchUsers(userId) == -1)
 			throw new UserInexistantException();
-
-		return users.get(searchUsers(userId));
-
+		else {
+			return users.get(searchUsers(userId));
+		}
 	}
 
 	public void removeHome(String homeId)
@@ -230,7 +232,7 @@ public class UberClass implements UberInterface {
 		int result = -1;
 		boolean found = false;
 		for (int i = 0; i < users.getSize() && !found; i++) {
-			if (homes.get(i).getUserId().equals(userID)) {
+			if (users.get(i).getUserId().equals(userID)) {
 				result = i;
 				found = true;
 			}

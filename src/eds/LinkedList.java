@@ -4,7 +4,7 @@ import home.Home;
 
 public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 
-	private static final long serialVersionUID = -3182045828000433499L;
+	private static final long serialVersionUID = 657L;
 	protected int size;
 	protected Node<E> head;
 	protected Node<E> tail;
@@ -25,10 +25,12 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 		Node<E> newNode = new NodeClass<E>(head, object, null);
 		if (size == 0) {
 			tail = newNode;
+			size++;
+		} else {
+			head.setPrevious(newNode);
+			head = newNode;
+			size++;
 		}
-		head.setPrevious(newNode);
-		head = newNode;
-		size++;
 	}
 
 	public void addLast(E object) {
@@ -36,12 +38,12 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 		Node<E> newNode = new NodeClass<E>(null, object, tail);
 		if (size == 0) {
 			head = newNode;
-
+			size++;
+		} else {
+			tail.setNext(newNode);
+			tail = newNode;
+			size++;
 		}
-		tail.setNext(newNode);
-		tail = newNode;
-		size++;
-
 	}
 
 	public void addMiddle(E object, int pos) throws InvalidPositionException {

@@ -6,7 +6,7 @@ import sort.*;
 
 public class UserClass implements UserInterface, java.io.Serializable {
 
-	private static final long serialVersionUID = -94741892628226633L;
+	private static final long serialVersionUID = 657L;
 	private DLList<Home> hostedHomes;
 	private DLList<Home> travelledHomes;
 	private String userId, email, phone, name, address, nationality;
