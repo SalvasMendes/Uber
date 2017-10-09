@@ -72,7 +72,7 @@ public class UserClass implements UserInterface, java.io.Serializable {
 		int result = -1;
 		boolean found = false;
 		for (int i = 0; i < hostedHomes.getSize() && !found; i++) {
-			if (hostedHomes.get(i).getHomeId().equals(homeID)) {
+			if (hostedHomes.get(i).getHomeId().equalsIgnoreCase(homeID)) {
 				result = i;
 				found = true;
 			}

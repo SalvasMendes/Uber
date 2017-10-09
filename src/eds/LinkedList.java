@@ -1,6 +1,5 @@
 package eds;
 
-import home.Home;
 
 public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 

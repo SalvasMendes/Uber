@@ -3,8 +3,6 @@ package uber;
 import java.io.*;
 import java.util.InputMismatchException;
 
-import javax.xml.bind.PropertyException;
-
 import eds.*;
 import exceptions.*;
 import home.*;
@@ -71,17 +69,13 @@ public class UberClass implements UberInterface {
 	public void createHome(String homeId, String userId, int price, int cap, String local, String description,
 			String address) throws UserInexistantException, PropertyExistsException, InvalidPositionException {
 
-		
-		if(cap > 20 || cap < 1 || price < 0) {
+		if (cap > 20 || cap < 1 || price < 0) {
 			throw new InputMismatchException();
-		}
-		else if (searchUsers(userId) == -1) {
+		} else if (searchUsers(userId) == -1) {
 			throw new UserInexistantException();
-		}
-		else if(searchHome(homeId) > -1) {
+		} else if (searchHome(homeId) > -1) {
 			throw new PropertyExistsException();
-		}
-		else {
+		} else {
 
 			UserInterface owner = users.get(searchUsers(userId));
 			Home home = new HomeClass(homeId, userId, local, description, address, price, cap, owner);
@@ -135,9 +129,8 @@ public class UberClass implements UberInterface {
 			throw new PropertyVisitedException();
 
 		else {
-
+			users.get(searchUsers(homes.get(pos).getUserId())).removeHome(homeId);
 			homes.remove(pos);
-			homes.get(pos).getOwner().removeHome(homeId);
 		}
 	}
 
@@ -148,26 +141,32 @@ public class UberClass implements UberInterface {
 		return homes.get(searchHome(homeId));
 	}
 
-	public void addStay(String userId, String homeId, int points) throws UserInexistantException,
-			PropertyInexistantException, TravellerIsHostException, InvalidPositionException {
+	public void addStay(String userId, String homeId, int points) throws DadosInvalidosException,
+			UserInexistantException, PropertyInexistantException, TravellerIsHostException, InvalidPositionException {
 
 		int user = searchUsers(userId);
 
-		if (user == -1) {
-			throw new UserInexistantException();
+		if (points < 0) {
+			throw new DadosInvalidosException();
 
 		} else {
 
-			int pos = searchHome(homeId);
-			if (pos == -1)
-				throw new PropertyInexistantException();
+			if (user == -1) {
+				throw new UserInexistantException();
 
-			else if (users.get(pos).hasHome(homeId))
-				throw new TravellerIsHostException();
+			} else {
 
-			else {
-				homes.get(pos).addScore(points);
-				users.get(user).addStay(homes.get(pos));
+				int pos = searchHome(homeId);
+				if (pos == -1)
+					throw new PropertyInexistantException();
+
+				else if (users.get(pos).hasHome(homeId))
+					throw new TravellerIsHostException();
+
+				else {
+					homes.get(pos).addScore(points);
+					users.get(user).addStay(homes.get(pos));
+				}
 			}
 		}
 	}
@@ -245,7 +244,7 @@ public class UberClass implements UberInterface {
 	}
 
 	public TwoWayIterator<Home> platformHousesIterator(int people, String local)
-			throws NoResultsException, InvalidPositionException, EmptyListException {
+			throws InputMismatchException, InvalidPositionException, EmptyListException {
 
 		DLList<Home> tempList = new LinkedList<Home>();
 		TwoWayIterator<Home> it = new TwoWayIteratorClass<>(homes.getFirst(), homes.getLast());
@@ -253,14 +252,15 @@ public class UberClass implements UberInterface {
 
 		while (it.hasNext()) {
 			Home home = it.next();
-			if (home.getCap() == people && home.getLocal().equals(local)) {
+			if (home.getCap() >= people && home.getLocal().equalsIgnoreCase(local)) {
 				tempList.addFirst(home);
 			}
 		}
 
-		if (tempList.getSize() == 0)
-			throw new NoResultsException();
-		else {
+		if (people < 1 || people > 20) {
+			throw new InputMismatchException();
+
+		} else {
 			qs.sortID(tempList);
 			return new TwoWayIteratorClass<>(tempList.getFirst(), tempList.getLast());
 		}
@@ -268,7 +268,6 @@ public class UberClass implements UberInterface {
 
 	public TwoWayIterator<Home> hostedHomesIterator(String userId)
 			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException {
-
 		int user = searchUsers(userId);
 
 		if (user == -1)
@@ -297,26 +296,19 @@ public class UberClass implements UberInterface {
 		}
 	}
 
-	public TwoWayIterator<Home> bestHomesIterator(String local)
-			throws InvalidPositionException, EmptyListException, NoResultsException {
+	public TwoWayIterator<Home> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException {
 		DLList<Home> tempList = new LinkedList<Home>();
 		QuickSort qs = new QuickSortClass();
 		TwoWayIterator<Home> it = new TwoWayIteratorClass<>(homes.getFirst(), homes.getLast());
 
 		while (it.hasNext()) {
 			Home home = it.next();
-			if (home.getLocal().equals(local)) {
+			if (home.getLocal().equalsIgnoreCase(local)) {
 				tempList.addFirst(home);
 			}
 		}
-		if (tempList.getSize() == 0)
-			throw new NoResultsException();
-		else {
-			qs.sortScore(tempList);
-			return new TwoWayIteratorClass<>(tempList.getFirst(), tempList.getLast());
-		}
+
+		qs.sortScore(tempList);
+		return new TwoWayIteratorClass<>(tempList.getFirst(), tempList.getLast());
 	}
-
-	// TODO addStay e exeçao de dados invalidos do addstay.
-
 }

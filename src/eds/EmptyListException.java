@@ -8,7 +8,7 @@ public class EmptyListException extends Exception {
 	private static final long serialVersionUID = 1L;
 	
 	public String getMessage(){
-		return "List is empty";
+		return "Pesquisa nao devolveu resultados.";
 	}
 
 }

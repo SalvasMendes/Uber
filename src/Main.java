@@ -79,26 +79,22 @@ public class Main {
 	}
 
 	private static void listBest(Scanner in, UberInterface ub) {
-		String local = in.next();
-		in.nextLine();
+		String local = in.nextLine().trim();
 
 		try {
 			TwoWayIterator<Home> it = ub.bestHomesIterator(local);
 			while (it.hasNext()) {
 				Home home = it.next();
 
-				System.out.printf("%s %s %s %s %d %d %d", home.getHomeId(), home.getDescription(), home.getAddress(),
+				System.out.printf("%s %s %s %s %d %d %d\n", home.getHomeId(), home.getDescription(), home.getAddress(),
 						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
 
 			}
 
-		} catch (InvalidPositionException e) {
-			System.out.println(e.getMessage());
-
 		} catch (EmptyListException e) {
 			System.out.println(e.getMessage());
 
-		} catch (NoResultsException e) {
+		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
 		}
 
@@ -108,23 +104,19 @@ public class Main {
 
 		try {
 			int people = in.nextInt();
-			String local = in.next();
-			in.nextLine();
+			String local = in.nextLine().trim();
 
 			TwoWayIterator<Home> it = ub.platformHousesIterator(people, local);
 			while (it.hasNext()) {
 				Home home = it.next();
 
-				System.out.printf("%s %s %s %s %d %d %d", home.getHomeId(), home.getDescription(), home.getAddress(),
+				System.out.printf("%s %s %s %s %d %d %d\n", home.getHomeId(), home.getDescription(), home.getAddress(),
 						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
 			}
 
 		} catch (InputMismatchException e) {
 			System.out.println("Dados invalidos.");
 			in.nextLine();
-
-		} catch (NoResultsException e) {
-			System.out.println(e.getMessage());
 
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
@@ -168,7 +160,7 @@ public class Main {
 			TwoWayIterator<Home> it = ub.hostedHomesIterator(userId);
 			while (it.hasNext()) {
 				Home home = it.next();
-				System.out.printf("%s %s %s %s %d %d %d", home.getHomeId(), home.getDescription(), home.getAddress(),
+				System.out.printf("%s %s %s %s %d %d %d\n", home.getHomeId(), home.getDescription(), home.getAddress(),
 						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
 			}
 		} catch (UserInexistantException e) {
@@ -194,9 +186,11 @@ public class Main {
 		try {
 			points = Integer.parseInt(tempPoint.trim());
 			ub.addStay(userId, homeId, points);
+			System.out.println("Estadia adicionada com sucesso.");
 		} catch (NumberFormatException nfe) {
 			try {
 				ub.addStayNoPoints(userId, homeId);
+				System.out.println("Estadia adicionada com sucesso.");
 			} catch (InvalidPositionException e) {
 				System.out.println(e.getMessage());
 			} catch (PropertyInexistantException e) {
@@ -214,9 +208,9 @@ public class Main {
 			System.out.println(e.getMessage());
 		} catch (TravellerIsHostException e) {
 			System.out.println(e.getMessage());
+		} catch (DadosInvalidosException e) {
+			System.out.println(e.getMessage());
 		}
-
-		// ub.addStay(userId, homeId, points);
 
 	}
 
@@ -226,7 +220,8 @@ public class Main {
 		Home home = null;
 		try {
 			home = ub.homeInfo(homeId);
-			System.out.printf("%s: %s, %s, %d, %d, %d, %s", home.getDescription(), home.getAddress(), home.getLocal(), home.getPrice(), home.getCap(), home.getScore(), home.getOwner().getName());
+			System.out.printf("%s: %s, %s, %d, %d, %d, %s", home.getDescription(), home.getAddress(), home.getLocal(),
+					home.getPrice(), home.getCap(), home.getScore(), home.getOwner().getName());
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
 		} catch (PropertyInexistantException e) {
