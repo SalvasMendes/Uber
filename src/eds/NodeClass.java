@@ -1,5 +1,11 @@
 package eds;
 
+/**
+ * 
+ * @author 50503_50647
+ *
+ * @param <E>
+ */
 public class NodeClass<E> implements Node<E>, java.io.Serializable {
 
 	private static final long serialVersionUID = 657L;

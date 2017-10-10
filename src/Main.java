@@ -6,9 +6,14 @@ import exceptions.*;
 import home.*;
 import uber.*;
 import user.*;
-
+/**
+ * 
+ * @author 50503_50647
+ *
+ */
 public class Main {
 
+	// Main commands
 	private static final String QUIT = "XS";
 	private static final String REGIST_USER = "IU";
 	private static final String EDIT_USER = "UU";
@@ -22,6 +27,19 @@ public class Main {
 	private static final String LIST_TRAVELLER = "LT";
 	private static final String SEARCH_PROPERTY = "PH";
 	private static final String LIST_BEST = "LB";
+
+	// Strings
+	private static final String EXIT = "Gravando e terminando...";
+	private static final String USER_CR = "Insercao de utilizador com sucesso.";
+	private static final String UPDATE = "Utilizador atualizado com sucesso.";
+	private static final String REMOVE_USERR = "Utilizador removido com sucesso.";
+	private static final String CHECK_USERR = "%s: %s, %s, %s, %s\n";
+	private static final String REMOV_HOUSE = "Propriedade removida com sucesso.";
+	private static final String CREAT_HOUSE = "Propriedade adicionada com sucesso.";
+	private static final String CHEK_HOUSE = "%s: %s, %s, %d, %d, %d, %s";
+	private static final String STAY = "Estadia adicionada com sucesso.";
+	private static final String LIST = "%s %s %s %s %d %d %d\n";
+	private static final String EXE = "Dados invalidos.";
 
 	public static void main(String[] args) throws InvalidPositionException, UserInexistantException,
 			PropertyInexistantException, TravellerIsHostException, TravellerIsNotHostException {
@@ -71,7 +89,7 @@ public class Main {
 			System.out.println();
 			op = getCommand(in);
 		}
-		System.out.println("Gravando e terminando...");
+		System.out.println(EXIT);
 		System.out.println();
 		ub.saveStatus();
 		in.close();
@@ -86,8 +104,8 @@ public class Main {
 			while (it.hasNext()) {
 				Home home = it.next();
 
-				System.out.printf("%s %s %s %s %d %d %d\n", home.getHomeId(), home.getDescription(), home.getAddress(),
-						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
+				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
+						home.getPrice(), home.getCap(), home.getScore());
 
 			}
 
@@ -110,12 +128,12 @@ public class Main {
 			while (it.hasNext()) {
 				Home home = it.next();
 
-				System.out.printf("%s %s %s %s %d %d %d\n", home.getHomeId(), home.getDescription(), home.getAddress(),
-						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
+				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
+						home.getPrice(), home.getCap(), home.getScore());
 			}
 
 		} catch (InputMismatchException e) {
-			System.out.println("Dados invalidos.");
+			System.out.println(EXE);
 			in.nextLine();
 
 		} catch (InvalidPositionException e) {
@@ -135,9 +153,9 @@ public class Main {
 			TwoWayIterator<Home> it = ub.travalledHomesIterator(userId);
 			it.fullForward();
 			while (it.hasPrevious()) {
-				Home home = it.next();
-				System.out.printf("%s %s %s %s %d %d %d", home.getHomeId(), home.getDescription(), home.getAddress(),
-						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
+				Home home = it.previous();
+				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
+						home.getPrice(), home.getCap(), home.getScore());
 			}
 		} catch (UserInexistantException e) {
 			System.out.println(e.getMessage());
@@ -160,8 +178,8 @@ public class Main {
 			TwoWayIterator<Home> it = ub.hostedHomesIterator(userId);
 			while (it.hasNext()) {
 				Home home = it.next();
-				System.out.printf("%s %s %s %s %d %d %d\n", home.getHomeId(), home.getDescription(), home.getAddress(),
-						home.getLocal(), home.getPrice(), home.getCap(), home.getScore());
+				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
+						home.getPrice(), home.getCap(), home.getScore());
 			}
 		} catch (UserInexistantException e) {
 			System.out.println(e.getMessage());
@@ -186,11 +204,11 @@ public class Main {
 		try {
 			points = Integer.parseInt(tempPoint.trim());
 			ub.addStay(userId, homeId, points);
-			System.out.println("Estadia adicionada com sucesso.");
+			System.out.println(STAY);
 		} catch (NumberFormatException nfe) {
 			try {
 				ub.addStayNoPoints(userId, homeId);
-				System.out.println("Estadia adicionada com sucesso.");
+				System.out.println(STAY);
 			} catch (InvalidPositionException e) {
 				System.out.println(e.getMessage());
 			} catch (PropertyInexistantException e) {
@@ -220,8 +238,8 @@ public class Main {
 		Home home = null;
 		try {
 			home = ub.homeInfo(homeId);
-			System.out.printf("%s: %s, %s, %d, %d, %d, %s", home.getDescription(), home.getAddress(), home.getLocal(),
-					home.getPrice(), home.getCap(), home.getScore(), home.getOwner().getName());
+			System.out.printf(CHEK_HOUSE, home.getDescription(), home.getAddress(), home.getLocal(), home.getPrice(),
+					home.getCap(), home.getScore(), home.getOwner().getName());
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
 		} catch (PropertyInexistantException e) {
@@ -235,7 +253,7 @@ public class Main {
 		in.nextLine();
 		try {
 			ub.removeHome(homeId);
-			System.out.println("Propriedade removida com sucesso.");
+			System.out.println(REMOV_HOUSE);
 		} catch (EmptyListException e) {
 			System.out.println(e.getMessage());
 		} catch (InvalidPositionException e) {
@@ -259,9 +277,9 @@ public class Main {
 			String address = in.nextLine();
 
 			ub.createHome(homeId, userId, price, cap, local, description, address);
-			System.out.println("Propriedade adicionada com sucesso.");
+			System.out.println(CREAT_HOUSE);
 		} catch (InputMismatchException e) {
-			System.out.println("Dados invalidos.");
+			System.out.println(EXE);
 			in.nextLine();
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
@@ -279,8 +297,8 @@ public class Main {
 		UserInterface user = null;
 		try {
 			user = ub.userInfo(userId);
-			System.out.printf("%s: %s, %s, %s, %s\n", user.getName(), user.getAddress(), user.getNationality(),
-					user.getEmail(), user.getPhone());
+			System.out.printf(CHECK_USERR, user.getName(), user.getAddress(), user.getNationality(), user.getEmail(),
+					user.getPhone());
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
 		} catch (UserInexistantException e) {
@@ -294,7 +312,7 @@ public class Main {
 		in.nextLine();
 		try {
 			ub.removeUser(userId);
-			System.out.println("Utilizador removido com sucesso.");
+			System.out.println(REMOVE_USERR);
 		} catch (EmptyListException e) {
 			System.out.println(e.getMessage());
 		} catch (InvalidPositionException e) {
@@ -314,7 +332,7 @@ public class Main {
 		String address = in.nextLine();
 		try {
 			ub.alterUser(userId, email, phone, address);
-			System.out.println("Utilizador atualizado com sucesso.");
+			System.out.println(UPDATE);
 		} catch (InvalidPositionException e) {
 			System.out.println(e.getMessage());
 		} catch (UserInexistantException e) {
@@ -332,7 +350,7 @@ public class Main {
 		String address = in.nextLine();
 		try {
 			ub.createUser(userId, email, phone, name, address, nationality);
-			System.out.println("Insercao de utilizador com sucesso.");
+			System.out.println(USER_CR);
 		} catch (UserExistException e) {
 			System.out.println(e.getMessage());
 		} catch (InvalidPositionException e) {

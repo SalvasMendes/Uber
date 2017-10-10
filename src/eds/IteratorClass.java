@@ -2,6 +2,12 @@ package eds;
 
 import java.util.NoSuchElementException;
 
+/**
+ * 
+ * @author 50503_50647
+ *
+ * @param <E>
+ */
 public class IteratorClass<E> implements Iterator<E> {
 
 	protected Node<E> current, head;

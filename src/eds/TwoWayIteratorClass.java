@@ -1,7 +1,12 @@
 package eds;
 
 import java.util.NoSuchElementException;
-
+/**
+ * 
+ * @author 50503_50647
+ *
+ * @param <E>
+ */
 public class TwoWayIteratorClass<E> extends IteratorClass<E> implements TwoWayIterator<E>{
 
 	/**
@@ -13,7 +18,7 @@ public class TwoWayIteratorClass<E> extends IteratorClass<E> implements TwoWayIt
 
 	public TwoWayIteratorClass(Node<E>head, Node<E>tail) throws InvalidPositionException {
 		super(head);
-		tail = null;
+		this.tail = tail;
 	}
 
 	public boolean hasPrevious() {

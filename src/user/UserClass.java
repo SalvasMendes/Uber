@@ -4,6 +4,11 @@ import eds.*;
 import home.*;
 import sort.*;
 
+/**
+ * 
+ * @author 50503_50647
+ *
+ */
 public class UserClass implements UserInterface, java.io.Serializable {
 
 	private static final long serialVersionUID = 657L;
@@ -67,7 +72,13 @@ public class UserClass implements UserInterface, java.io.Serializable {
 		return new TwoWayIteratorClass<Home>(hostedHomes.getFirst(), hostedHomes.getLast());
 
 	}
-
+	
+	/**
+	 * This method returns the position of a house given its homeID, in the list
+	 * @param homeID
+	 * @return
+	 * @throws InvalidPositionException
+	 */
 	private int searchHome(String homeID) throws InvalidPositionException {
 		int result = -1;
 		boolean found = false;
@@ -102,7 +113,7 @@ public class UserClass implements UserInterface, java.io.Serializable {
 	}
 
 	public TwoWayIterator<Home> travalledHomesIterator() throws InvalidPositionException, EmptyListException {
-		return new TwoWayIteratorClass<>(hostedHomes.getFirst(), travelledHomes.getLast());
+		return new TwoWayIteratorClass<>(travelledHomes.getFirst(), travelledHomes.getLast());
 	}
 
 }

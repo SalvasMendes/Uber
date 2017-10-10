@@ -9,6 +9,11 @@ import home.*;
 import sort.*;
 import user.*;
 
+/**
+ * 
+ * @author 50503_50647
+ *
+ */
 public class UberClass implements UberInterface {
 
 	private DLList<UserInterface> users;
@@ -216,7 +221,13 @@ public class UberClass implements UberInterface {
 			i.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 * This method returns the position of a home in the list given its homeID
+	 * @param homeID
+	 * @return
+	 * @throws InvalidPositionException
+	 */
 	private int searchHome(String homeID) throws InvalidPositionException {
 		int result = -1;
 		boolean found = false;
@@ -229,7 +240,13 @@ public class UberClass implements UberInterface {
 		return result;
 
 	}
-
+	
+	/**
+	 * This method returns the position of a user in the list given its userID
+	 * @param userID
+	 * @return
+	 * @throws InvalidPositionException
+	 */
 	private int searchUsers(String userID) throws InvalidPositionException {
 		int result = -1;
 		boolean found = false;

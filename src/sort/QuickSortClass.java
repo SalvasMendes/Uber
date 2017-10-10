@@ -3,6 +3,11 @@ package sort;
 import eds.*;
 import home.*;
 
+/**
+ * 
+ * @author 50503_50647
+ *
+ */
 public class QuickSortClass implements QuickSort {
 
 	private DLList<Home> tempList;

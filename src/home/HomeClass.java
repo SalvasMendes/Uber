@@ -2,6 +2,11 @@ package home;
 
 import user.*;
 
+/**
+ * 
+ * @author 50503_50647
+ *
+ */
 public class HomeClass implements Home, java.io.Serializable {
 
 	private static final long serialVersionUID = 657L;
