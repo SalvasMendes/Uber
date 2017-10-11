@@ -36,7 +36,7 @@ public class Main {
 	private static final String CHECK_USERR = "%s: %s, %s, %s, %s\n";
 	private static final String REMOV_HOUSE = "Propriedade removida com sucesso.";
 	private static final String CREAT_HOUSE = "Propriedade adicionada com sucesso.";
-	private static final String CHEK_HOUSE = "%s: %s, %s, %d, %d, %d, %s";
+	private static final String CHEK_HOUSE = "%s: %s, %s, %d, %d, %d, %s\n";
 	private static final String STAY = "Estadia adicionada com sucesso.";
 	private static final String LIST = "%s %s %s %s %d %d %d\n";
 	private static final String EXE = "Dados invalidos.";
