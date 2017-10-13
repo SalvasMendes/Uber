@@ -6,7 +6,8 @@ import sort.*;
 
 /**
  * 
- * @author 50503_50647
+ * @author Salvador Mendes (50503) sr.mendes@campus.fct.unl.pt
+ * @author Miguel Candeias (50647) mb.candeias@campus.fct.unl.pt
  *
  */
 public class UserClass implements UserInterface, java.io.Serializable {

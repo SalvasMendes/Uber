@@ -3,9 +3,9 @@ package eds;
 import java.util.NoSuchElementException;
 /**
  * 
- * @author 50503_50647
+ * @author Salvador Mendes (50503) sr.mendes@campus.fct.unl.pt
+ * @author Miguel Candeias (50647) mb.candeias@campus.fct.unl.pt
  *
- * @param <E>
  */
 public class TwoWayIteratorClass<E> extends IteratorClass<E> implements TwoWayIterator<E>{
 
