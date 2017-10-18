@@ -1,9 +1,17 @@
 package eds;
 
-public interface Bucket {
+public interface Bucket<K, V> {
 
-	void addObj(Object obj);
+	public Bucket<K, V> getNext();
 
-	Iterator<Object> itemsToCompare() throws InvalidPositionException, EmptyListException;
+	public void setNext(Bucket<K, V> bucket);
+
+	public void setPrevious(Bucket<K, V> bucket);
+
+	public Bucket<K, V> getPrevious();
+
+	public V getObject();
+
+	public K getKey();
 
 }

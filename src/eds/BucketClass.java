@@ -1,22 +1,50 @@
 package eds;
 
-public class BucketClass implements java.io.Serializable, Bucket {
+/**
+ * 
+ * @author 50503_50647
+ *
+ * @param <E>
+ */
+
+public class BucketClass<K, V> implements java.io.Serializable, Bucket<K, V> {
 
 	private static final long serialVersionUID = 657L;
-	DLList<Object> elements;
+	private Bucket<K, V> next;
+	private Bucket<K, V> previous;
+	private K key;
+	private V value;
 
-	public BucketClass(Object obj) {
-		elements = new LinkedList<Object>();
+	public BucketClass(Bucket<K, V> next, K key, V value, Bucket<K, V> previous) {
+		this.next = next;
+		this.key = key;
+		this.value = value;
+		this.previous = previous;
+
 	}
 
-	@Override
-	public void addObj(Object obj) {
-		elements.addLast(obj);
+	public Bucket<K, V> getNext() {
+		return next;
 	}
 
-	@Override
-	public Iterator<Object> itemsToCompare() throws InvalidPositionException, EmptyListException {
-		return new IteratorClass<>(elements.getFirst());
+	public void setNext(Bucket<K, V> bucket) {
+		next = bucket;
+	}
+
+	public void setPrevious(Bucket<K, V> bucket) {
+		previous = bucket;
+	}
+
+	public Bucket<K, V> getPrevious() {
+		return previous;
+	}
+
+	public V getObject() {
+		return value;
+	}
+
+	public K getKey() {
+		return key;
 	}
 
 }
