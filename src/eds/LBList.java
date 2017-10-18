@@ -4,7 +4,7 @@ public interface LBList<K, V> {
 
 	void addLast(K key, V value);
 
-	V get(int n) throws InvalidPositionException;
+	V get(K key) throws InvalidPositionException;
 
 	Bucket<K, V> getBucket(int pos) throws InvalidPositionException;
 

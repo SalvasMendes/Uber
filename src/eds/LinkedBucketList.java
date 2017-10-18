@@ -13,7 +13,9 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		tail = null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see eds.LBList#addLast(K, V)
 	 */
 	public void addLast(K key, V value) {
@@ -44,10 +46,10 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 	 * return tail; }
 	 */
 
-	/* (non-Javadoc)
-	 * @see eds.LBList#get(int)
-	 */
-	public V get(int n) throws InvalidPositionException {
+	public V get(K key) throws InvalidPositionException {
+		
+		int n = findKey(key);
+		
 		if (n < 0 || n >= size) {
 			throw new InvalidPositionException();
 		} else {
@@ -55,9 +57,6 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see eds.LBList#getBucket(int)
-	 */
 	public Bucket<K, V> getBucket(int pos) throws InvalidPositionException {
 
 		if (pos < 0 || pos >= size) {
@@ -84,9 +83,6 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 	}
 
-	/* (non-Javadoc)
-	 * @see eds.LBList#append(eds.LBList)
-	 */
 	public void append(LBList<K, V> list) throws EmptyListException, InvalidPositionException {
 
 		if (size == 0) {
@@ -99,15 +95,12 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 	}
 
-	/* (non-Javadoc)
-	 * @see eds.LBList#findKey(K)
-	 */
 	public int findKey(K key) {
 
 		Bucket<K, V> bucket = head;
 		int currentPos = 0;
 
-		while (bucket != null && !bucket.getObject().equals(key)) {
+		while (bucket != null && !bucket.getKey().equals(key)) {
 			bucket.getNext();
 			currentPos++;
 		}
@@ -130,7 +123,9 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see eds.LBList#removeHead()
 	 */
 	public V removeHead() {
@@ -151,7 +146,9 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see eds.LBList#removeTail()
 	 */
 	public V removeTail() {
@@ -183,7 +180,9 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see eds.LBList#remove(K)
 	 */
 	public boolean remove(K key) throws InvalidPositionException {
@@ -206,7 +205,9 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see eds.LBList#swapNode(int, int)
 	 */
 	public void swapNode(int a, int b) throws InvalidPositionException {
@@ -225,14 +226,18 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see eds.LBList#getSize()
 	 */
 	public int getSize() {
 		return size;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see eds.LBList#isEmpty()
 	 */
 	public boolean isEmpty() {
