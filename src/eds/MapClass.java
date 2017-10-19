@@ -1,10 +1,11 @@
 package eds;
 
-public class MapClass<K, V> {
+public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 
+	private static final long serialVersionUID = 657L;
 	private LBList<K, V>[] buckets;
 	private int size;
-	private float loadR;
+	private double loadR;
 
 	@SuppressWarnings("unchecked")
 	public MapClass(int size) {
@@ -34,25 +35,27 @@ public class MapClass<K, V> {
 		index = hashKey(key, size);
 		buckets[index].addLast(key, value);
 	}
-	
-	public void remap(){
-		int newSize = size*2;
+
+	public void remap() throws InvalidPositionException {
+		int newSize = size * 2;
 		int i = 0;
 		int j;
 		LBList<K, V>[] temp = new LBList[newSize];
 		initLists(newSize, temp);
-		while(i<size){
-			if(buckets[i].isEmpty(){
+		while (i < size) {
+			if (buckets[i].isEmpty()) {
+				i++;
+			} else {
+				j = 0;
+				K tempKey;
+				while (j < buckets[i].getSize()) {
+					tempKey = buckets[i].getBucket(j).getKey();
+					temp[hashKey(tempKey, newSize)].addLast(tempKey, buckets[i].get(tempKey));
+					j++;
+				}
 				i++;
 			}
-			 else{
-				 j = 0;
-				 while(j < buckets[i].getSize()){
-				 K tempKey = buckets[i].getKey(j);
-				 temp[hashKey(tempKey, newSize)] = buckets[i].get(tempKey);
-				 j++;
-				 }				
 		}
+		buckets = temp;
 	}
-
 }

@@ -13,11 +13,6 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		tail = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eds.LBList#addLast(K, V)
-	 */
 	public void addLast(K key, V value) {
 
 		Bucket<K, V> newBucket = new BucketClass<K, V>(head, key, value, null);
@@ -32,24 +27,10 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		}
 	}
 
-	/*
-	 * public Bucket<K, V> getFirst() throws EmptyListException {
-	 * 
-	 * if (size == 0) { throw new EmptyListException(); }
-	 * 
-	 * return head; }
-	 * 
-	 * public Bucket<K, V> getLast() throws EmptyListException {
-	 * 
-	 * if (size == 0) { throw new EmptyListException(); }
-	 * 
-	 * return tail; }
-	 */
-
 	public V get(K key) throws InvalidPositionException {
-		
+
 		int n = findKey(key);
-		
+
 		if (n < 0 || n >= size) {
 			throw new InvalidPositionException();
 		} else {
@@ -123,11 +104,6 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eds.LBList#removeHead()
-	 */
 	public V removeHead() {
 		V value = head.getObject();
 		this.removeFirst();
@@ -146,11 +122,6 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eds.LBList#removeTail()
-	 */
 	public V removeTail() {
 		V value = tail.getObject();
 		this.removeLast();
@@ -158,14 +129,16 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 	}
 
 	/*
-	 * public V remove(int pos) throws EmptyListException, InvalidPositionException
-	 * { if (size == 0) { throw new EmptyListException(); }
+	 * public V remove(int pos) throws EmptyListException,
+	 * InvalidPositionException { if (size == 0) { throw new
+	 * EmptyListException(); }
 	 * 
 	 * else if (pos < 0 || pos >= size) throw new InvalidPositionException();
 	 * 
-	 * else { if (pos == 0) return this.removeHead(); else if (pos == size - 1) {
-	 * return this.removeTail(); } else { Node<E> nodeToRemove = this.getNode(pos);
-	 * this.removeMid(nodeToRemove); return nodeToRemove.getObject(); } }
+	 * else { if (pos == 0) return this.removeHead(); else if (pos == size - 1)
+	 * { return this.removeTail(); } else { Node<E> nodeToRemove =
+	 * this.getNode(pos); this.removeMid(nodeToRemove); return
+	 * nodeToRemove.getObject(); } }
 	 * 
 	 * }
 	 */
@@ -180,11 +153,6 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eds.LBList#remove(K)
-	 */
 	public boolean remove(K key) throws InvalidPositionException {
 
 		int pos = this.findKey(key);
@@ -205,11 +173,6 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eds.LBList#swapNode(int, int)
-	 */
 	public void swapNode(int a, int b) throws InvalidPositionException {
 		Bucket<K, V> bucketA = this.getBucket(a);
 		Bucket<K, V> bucketB = this.getBucket(b);
@@ -226,20 +189,10 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eds.LBList#getSize()
-	 */
 	public int getSize() {
 		return size;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see eds.LBList#isEmpty()
-	 */
 	public boolean isEmpty() {
 		return (size == 0);
 	}
