@@ -128,21 +128,6 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		return value;
 	}
 
-	/*
-	 * public V remove(int pos) throws EmptyListException,
-	 * InvalidPositionException { if (size == 0) { throw new
-	 * EmptyListException(); }
-	 * 
-	 * else if (pos < 0 || pos >= size) throw new InvalidPositionException();
-	 * 
-	 * else { if (pos == 0) return this.removeHead(); else if (pos == size - 1)
-	 * { return this.removeTail(); } else { Node<E> nodeToRemove =
-	 * this.getNode(pos); this.removeMid(nodeToRemove); return
-	 * nodeToRemove.getObject(); } }
-	 * 
-	 * }
-	 */
-
 	protected void removeMid(Bucket<K, V> midBucket) {
 
 		Bucket<K, V> prevNode = midBucket.getPrevious();
@@ -203,5 +188,4 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 	public LBListIterator<K,V> iterator() throws InvalidPositionException {
 		return new LBListIteratorClass<K, V>(head);
 	}
-
 }

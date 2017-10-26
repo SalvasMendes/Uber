@@ -7,6 +7,9 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 	private int size;
 	private int nbrEntries;
 	private static double loadR = 0.75;
+	private int newSize;
+	private int index;
+	private int hcode;
 
 	@SuppressWarnings("unchecked")
 	public MapClass(int size) {
@@ -31,15 +34,13 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 	}
 
 	private int hashKey(K key, int size) {
-		int index;
-		int hcode = key.hashCode();
+		hcode = key.hashCode();
 
 		index = hcode % size;
 		return index;
 	}
 
 	public void add(K key, V value) throws InvalidPositionException {
-		int index;
 		if (nbrEntries / size == loadR) {
 			remap();
 			index = hashKey(key, size);
@@ -52,32 +53,20 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 	}
 
 	private void remap() throws InvalidPositionException {
-		int newSize = size * 2;
-		int i = 0;
+		newSize = size * 2;
 		K tempkey;
 		Bucket<K, V> tempObj;
-		LBListIterator<K, V> it;
+		HashTableIterator<K, V> it = new HashTableIteratorClass<>(buckets);
 		@SuppressWarnings("unchecked")
 		LBList<K, V>[] temp = new LBList[newSize];
 		initLists(newSize, temp);
-		while (i < size) {
-			if (buckets[i].isEmpty()) {
-				i++;
-			} else {
-				it = buckets[i].iterator();
-				while (it.hasNext()) {
-					tempObj = it.next();
-					tempkey = tempObj.getKey();
-					temp[hashKey(tempkey, newSize)].addLast(tempkey, tempObj.getObject());
-
-				}
-
-			}
-
+		while (it.hasNext()) {
+			tempObj = it.next();
+			tempkey = tempObj.getKey();
+			temp[hashKey(tempkey, newSize)].addLast(tempkey, tempObj.getObject());
 		}
 		size = newSize;
 		buckets = temp;
-
 	}
 
 	public V remove(K key) throws InvalidPositionException {
@@ -95,7 +84,10 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 
 		return buckets[index].get(key);
 	}
-	
-		//TODO: Iterador do mapa, e meter o quicksort na list dos buckets
+
+	public HashTableIterator<K, V> iterate(int pos) throws InvalidPositionException {
+		return new HashTableIteratorClass<>(buckets);
+	}
+	// TODO: Iterador do mapa, e meter o quicksort na list dos buckets
 
 }

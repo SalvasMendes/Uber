@@ -2,7 +2,7 @@ package eds;
 
 import java.util.NoSuchElementException;
 
-public class HashTableIteratorClass<K, V> implements LBListIterator<K, V>, java.io.Serializable {
+public class HashTableIteratorClass<K, V> implements LBListIterator<K, V>, java.io.Serializable, HashTableIterator<K, V> {
 
 	/**
 	* 
@@ -13,7 +13,7 @@ public class HashTableIteratorClass<K, V> implements LBListIterator<K, V>, java.
 	private LBList<K, V>[] table;
 	private LBListIterator<K, V> iterator;
 	private boolean done;
-	private Bucket<K,V> element;
+	private Bucket<K, V> element;
 
 	public HashTableIteratorClass(LBList<K, V>[] table) {
 		this.table = table;
@@ -23,7 +23,7 @@ public class HashTableIteratorClass<K, V> implements LBListIterator<K, V>, java.
 		return iterator.hasNext();
 	}
 
-	public Bucket<K,V> next() throws NoSuchElementException, InvalidPositionException {
+	public Bucket<K, V> next() throws NoSuchElementException, InvalidPositionException {
 		element = iterator.next();
 
 		if (element != null) {
