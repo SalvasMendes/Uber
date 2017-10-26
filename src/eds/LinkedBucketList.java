@@ -153,24 +153,27 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 	}
 
-	public boolean remove(K key) throws InvalidPositionException {
+	public V remove(K key) throws InvalidPositionException {
 
 		int pos = this.findKey(key);
 		if (pos == -1) {
 			throw new InvalidPositionException();
+		} else {
+			Bucket<K, V> bucket = this.getBucket(pos);
+			if (bucket == null) {
+				// lança exeçao
+			} else {
+				if (bucket == head)
+					return (this.removeHead());
+				else if (bucket == tail)
+					return (this.removeTail());
+				else {
+					this.removeMid(bucket);
+					return bucket.getObject();
+				}
+			}
 		}
-		Bucket<K, V> bucket = this.getBucket(pos);
-		if (bucket == null)
-			return false;
-		else {
-			if (bucket == head)
-				this.removeHead();
-			else if (bucket == tail)
-				this.removeTail();
-			else
-				this.removeMid(bucket);
-		}
-		return true;
+		return null;
 	}
 
 	public void swapNode(int a, int b) throws InvalidPositionException {
@@ -195,6 +198,10 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 	public boolean isEmpty() {
 		return (size == 0);
+	}
+
+	public LBListIterator<K,V> iterator() throws InvalidPositionException {
+		return new LBListIteratorClass<K, V>(head);
 	}
 
 }

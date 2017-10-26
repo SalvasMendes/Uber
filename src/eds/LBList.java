@@ -16,12 +16,14 @@ public interface LBList<K, V> {
 
 	V removeTail();
 
-	boolean remove(K key) throws InvalidPositionException;
+	V remove(K key) throws InvalidPositionException;
 
 	void swapNode(int a, int b) throws InvalidPositionException;
 
 	int getSize();
 
 	boolean isEmpty();
+	
+	LBListIterator<K,V> iterator() throws InvalidPositionException;
 
 }

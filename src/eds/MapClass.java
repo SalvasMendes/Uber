@@ -5,14 +5,23 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 	private static final long serialVersionUID = 657L;
 	private LBList<K, V>[] buckets;
 	private int size;
-	private double loadR;
+	private int nbrEntries;
+	private static double loadR = 0.75;
 
 	@SuppressWarnings("unchecked")
 	public MapClass(int size) {
 		this.size = size;
 		buckets = new LBList[size];
 		initLists(size, buckets);
-		loadR = 0.75;
+		nbrEntries = 0;
+	}
+
+	@SuppressWarnings("unchecked")
+	public MapClass() {
+		size = 16;
+		buckets = new LBList[size];
+		initLists(size, buckets);
+		nbrEntries = 0;
 	}
 
 	private void initLists(int size, LBList<K, V>[] list) {
@@ -29,33 +38,64 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 		return index;
 	}
 
-	public void add(K key, V value) {
+	public void add(K key, V value) throws InvalidPositionException {
 		int index;
-
-		index = hashKey(key, size);
-		buckets[index].addLast(key, value);
+		if (nbrEntries / size == loadR) {
+			remap();
+			index = hashKey(key, size);
+			buckets[index].addLast(key, value);
+		} else {
+			index = hashKey(key, size);
+			buckets[index].addLast(key, value);
+		}
+		nbrEntries++;
 	}
 
-	public void remap() throws InvalidPositionException {
+	private void remap() throws InvalidPositionException {
 		int newSize = size * 2;
 		int i = 0;
-		int j;
+		K tempkey;
+		Bucket<K, V> tempObj;
+		LBListIterator<K, V> it;
+		@SuppressWarnings("unchecked")
 		LBList<K, V>[] temp = new LBList[newSize];
 		initLists(newSize, temp);
 		while (i < size) {
 			if (buckets[i].isEmpty()) {
 				i++;
 			} else {
-				j = 0;
-				K tempKey;
-				while (j < buckets[i].getSize()) {
-					tempKey = buckets[i].getBucket(j).getKey();
-					temp[hashKey(tempKey, newSize)].addLast(tempKey, buckets[i].get(tempKey));
-					j++;
+				it = buckets[i].iterator();
+				while (it.hasNext()) {
+					tempObj = it.next();
+					tempkey = tempObj.getKey();
+					temp[hashKey(tempkey, newSize)].addLast(tempkey, tempObj.getObject());
+
 				}
-				i++;
+
 			}
+
 		}
+		size = newSize;
 		buckets = temp;
+
 	}
+
+	public V remove(K key) throws InvalidPositionException {
+
+		int index = this.hashKey(key, size);
+		V tempElement = buckets[index].remove(key);
+		if (tempElement != null) {
+			size--;
+		}
+		return tempElement;
+	}
+
+	public V find(K key) throws InvalidPositionException {
+		int index = this.hashKey(key, size);
+
+		return buckets[index].get(key);
+	}
+	
+		//TODO: Iterador do mapa, e meter o quicksort na list dos buckets
+
 }

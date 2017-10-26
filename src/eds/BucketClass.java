@@ -4,7 +4,6 @@ package eds;
  * 
  * @author 50503_50647
  *
- * @param <E>
  */
 
 public class BucketClass<K, V> implements java.io.Serializable, Bucket<K, V> {
