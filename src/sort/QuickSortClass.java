@@ -14,7 +14,7 @@ public class QuickSortClass implements QuickSort {
 	private DLList<Home> tempList;
 	private int size;
 
-	public void sortScore(DLList<Home> homes) throws InvalidPositionException {
+	public void sortScore(DLList<Home> homes) throws InvalidPositionException, EmptyListException {
 		if (homes == null || homes.getSize() <= 1) {
 			return;
 		} else {
@@ -24,7 +24,7 @@ public class QuickSortClass implements QuickSort {
 		}
 	}
 
-	public void sortID(DLList<Home> homes) throws InvalidPositionException {
+	public void sortID(DLList<Home> homes) throws InvalidPositionException, EmptyListException {
 		if (homes == null || homes.getSize() <= 1) {
 			return;
 		} else {
@@ -34,7 +34,7 @@ public class QuickSortClass implements QuickSort {
 		}
 	}
 
-	private void scoreSort(int start, int end) throws InvalidPositionException {
+	private void scoreSort(int start, int end) throws InvalidPositionException, EmptyListException {
 		int l = start;
 		int h = end;
 
@@ -59,7 +59,7 @@ public class QuickSortClass implements QuickSort {
 			scoreSort(h, end);
 	}
 
-	private void idSort(int start, int end) throws InvalidPositionException {
+	private void idSort(int start, int end) throws InvalidPositionException, EmptyListException {
 		int l = start;
 		int h = end;
 

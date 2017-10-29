@@ -1,6 +1,7 @@
 package sort;
 
 import eds.DLList;
+import eds.EmptyListException;
 import eds.InvalidPositionException;
 import home.Home;
 
@@ -16,14 +17,16 @@ public interface QuickSort {
 	 * This method sorts the properties by the best score
 	 * @param homes
 	 * @throws InvalidPositionException
+	 * @throws EmptyListException 
 	 */
-	void sortScore(DLList<Home> homes) throws InvalidPositionException;
+	void sortScore(DLList<Home> homes) throws InvalidPositionException, EmptyListException;
 	
 	/**
 	 * This method sorts the IDs
 	 * @param homes
 	 * @throws InvalidPositionException
+	 * @throws EmptyListException 
 	 */
-	void sortID(DLList<Home> homes) throws InvalidPositionException;
+	void sortID(DLList<Home> homes) throws InvalidPositionException, EmptyListException;
 
 }

@@ -136,6 +136,7 @@ public interface DLList<E> {
 	 * @param a
 	 * @param b
 	 * @throws InvalidPositionException
+	 * @throws EmptyListException 
 	 */
 	void swapNode(int a, int b) throws InvalidPositionException;
 

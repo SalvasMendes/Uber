@@ -149,6 +149,7 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 		tail.setNext(list.getNode(0));
 		list.getNode(0).setPrevious(head);
 		tail = list.getNode(getSize() - 1);
+		size += list.getSize();
 
 	}
 
@@ -257,8 +258,9 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 	}
 
 	public void swapNode(int a, int b) throws InvalidPositionException {
-		Node<E> nodeA = this.getNode(a);
-		Node<E> nodeB = this.getNode(b);
+		
+		 Node<E> nodeB = this.getNode(b);
+		 Node<E> nodeA = this.getNode(a);
 
 		Node<E> nodeANext = nodeA.getNext();
 		Node<E> nodeAPrev = nodeA.getPrevious();
@@ -269,6 +271,7 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 		nodeB.setNext(nodeANext);
 		nodeB.setPrevious(nodeAPrev);
 		nodeA.setPrevious(nodeBPrev);
+		 
 
 	}
 
