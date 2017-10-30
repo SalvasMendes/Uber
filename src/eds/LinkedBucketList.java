@@ -203,19 +203,25 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 	}
 
 	public void swapNode(int a, int b) throws InvalidPositionException {
-		Bucket<K, V> bucketA = this.getBucket(a);
-		Bucket<K, V> bucketB = this.getBucket(b);
+		
+		Bucket<K, V> nodeB = this.getNode(b);
+		Bucket<K, V> nodeA = this.getNode(a);
 
-		Bucket<K, V> bucketANext = bucketA.getNext();
-		Bucket<K, V> bucketAPrev = bucketA.getPrevious();
-		Bucket<K, V> bucketBPrev = bucketB.getPrevious();
-		Bucket<K, V> bucketBNext = bucketB.getNext();
-
-		bucketA.setNext(bucketBNext);
-		bucketB.setNext(bucketANext);
-		bucketB.setPrevious(bucketAPrev);
-		bucketA.setPrevious(bucketBPrev);
-
+		Bucket<K, V> nodeAPrev = nodeA.getPrevious();
+		Bucket<K, V> nodeANext = nodeA.getNext();
+		Bucket<K, V> nodeBPrev = nodeB.getPrevious();
+		Bucket<K, V> nodeBNext = nodeB.getNext();
+		if (nodeANext == nodeB || nodeBPrev == nodeA) {
+			nodeA.setNext(nodeBNext);
+			nodeB.setNext(nodeA);
+			nodeB.setPrevious(nodeAPrev);
+			nodeA.setPrevious(nodeB);
+		} else {
+			nodeA.setNext(nodeBNext);
+			nodeA.setPrevious(nodeBPrev);
+			nodeB.setNext(nodeANext);
+			nodeB.setPrevious(nodeAPrev);
+		}
 	}
 
 	public int getSize() {
