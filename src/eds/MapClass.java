@@ -1,6 +1,6 @@
 package eds;
 
-public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
+public class MapClass<K, V> implements java.io.Serializable, Map<K, V>{
 
 	private static final long serialVersionUID = 657L;
 	private LBList<K, V>[] buckets;
@@ -10,6 +10,10 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 	private int newSize;
 	private int index;
 	private int hcode;
+	
+	public int nbr(){
+		return nbrEntries;
+	}
 
 	@SuppressWarnings("unchecked")
 	public MapClass(int size) {
@@ -35,7 +39,7 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 
 	private int hashKey(K key, int size) {
 		hcode = key.hashCode();
-
+		Math.abs(hcode);
 		index = hcode % size;
 		return index;
 	}
@@ -74,7 +78,7 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 		int index = this.hashKey(key, size);
 		V tempElement = buckets[index].remove(key);
 		if (tempElement != null) {
-			size--;
+			nbrEntries--;
 		}
 		return tempElement;
 	}
@@ -85,8 +89,8 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 		return buckets[index].get(key);
 	}
 
-	public HashTableIterator<K, V> iterate(int pos) throws InvalidPositionException {
-		return new HashTableIteratorClass<>(buckets);
+	public HashTableIterator<K, V> iterate() throws InvalidPositionException {
+		return new HashTableIteratorClass<K, V>(buckets);
 	}
 	// TODO: Iterador do mapa, e meter o quicksort na list dos buckets
 

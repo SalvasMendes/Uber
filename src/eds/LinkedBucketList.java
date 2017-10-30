@@ -56,7 +56,7 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 	public void addLast(K key, V value) {
 
-		Bucket<K, V> newBucket = new BucketClass<K, V>(head, key, value, null);
+		Bucket<K, V> newBucket = new BucketClass<K, V>(null, key, value, tail);
 		if (size == 0) {
 			head = newBucket;
 			tail = newBucket;
@@ -204,8 +204,8 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 	public void swapNode(int a, int b) throws InvalidPositionException {
 		
-		Bucket<K, V> nodeB = this.getNode(b);
-		Bucket<K, V> nodeA = this.getNode(a);
+		Bucket<K, V> nodeB = this.getBucket(b);
+		Bucket<K, V> nodeA = this.getBucket(a);
 
 		Bucket<K, V> nodeAPrev = nodeA.getPrevious();
 		Bucket<K, V> nodeANext = nodeA.getNext();

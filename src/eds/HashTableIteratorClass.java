@@ -2,11 +2,9 @@ package eds;
 
 import java.util.NoSuchElementException;
 
-public class HashTableIteratorClass<K, V> implements LBListIterator<K, V>, java.io.Serializable, HashTableIterator<K, V> {
+public class HashTableIteratorClass<K, V>
+		implements LBListIterator<K, V>, java.io.Serializable, HashTableIterator<K, V> {
 
-	/**
-	* 
-	*/
 	private static final long serialVersionUID = 657L;
 
 	private int current;
@@ -15,29 +13,26 @@ public class HashTableIteratorClass<K, V> implements LBListIterator<K, V>, java.
 	private boolean done;
 	private Bucket<K, V> element;
 
-	public HashTableIteratorClass(LBList<K, V>[] table) {
+	public HashTableIteratorClass(LBList<K, V>[] table) throws InvalidPositionException {
 		this.table = table;
+		this.rewind();
 	}
 
 	public boolean hasNext() {
 		return iterator.hasNext();
 	}
 
-	public Bucket<K, V> next() throws NoSuchElementException, InvalidPositionException {
+	public Bucket<K, V> next() throws InvalidPositionException {
+
 		element = iterator.next();
 
-		if (element != null) {
-			return element;
-		} else {
-			if (iterator.hasNext()) {
-				getNext();
-				return next();
-			} else {
-				throw new NoSuchElementException();
-			}
-
+		if (element == null) {
+			throw new NoSuchElementException();
 		}
-
+		if (!(iterator.hasNext())) {
+			getNext();
+		}
+		return element;
 	}
 
 	public void rewind() throws InvalidPositionException {
@@ -52,8 +47,8 @@ public class HashTableIteratorClass<K, V> implements LBListIterator<K, V>, java.
 			if (!table[current].isEmpty()) {
 				iterator = table[current].iterator();
 				done = true;
-			}
 
+			}
 			current++;
 		}
 	}
