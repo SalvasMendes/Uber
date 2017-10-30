@@ -1,5 +1,7 @@
 package eds;
 
+import java.util.NoSuchElementException;
+
 public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V> {
 
 	private static final long serialVersionUID = 657L;
@@ -11,6 +13,45 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		size = 0;
 		head = null;
 		tail = null;
+	}
+
+	public void orderedAdd(K key, V value) throws NoSuchElementException, InvalidPositionException {
+		Bucket<K, V> newBucket;
+		if (size == 0) {
+			newBucket = new BucketClass<K, V>(head, key, value, null);// faz sentido ter a head como next se nao tem
+																		// nada
+			head = newBucket;
+			tail = newBucket;
+			size++;
+		} else if (key.toString().compareTo(tail.getKey().toString()) > 0) {
+			addLast(key, value);
+		} else if (key.toString().compareTo(head.getKey().toString()) < 0) {
+			newBucket = new BucketClass<K, V>(head, key, value, null);
+			head = newBucket;
+			size++;
+		} else {
+			Bucket<K, V> temp = getBucket(findEntry(key));
+			newBucket = new BucketClass<K, V>(temp, key, value, temp.getPrevious());
+			temp.setPrevious(newBucket);
+			size++;
+		}
+	}
+
+	public int findEntry(K key) throws NoSuchElementException, InvalidPositionException {
+		String sKey = key.toString();
+		LBListIterator<K, V> it = iterator();
+		String tempKey;
+		boolean found = false;
+		int i = 0;
+		while (it.hasNext() && !found) {
+			tempKey = it.next().getKey().toString();
+			if (sKey.compareTo(tempKey) <= 0) {
+				found = true;
+			} else {
+				i++;
+			}
+		}
+		return i;
 	}
 
 	public void addLast(K key, V value) {
@@ -185,7 +226,7 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		return (size == 0);
 	}
 
-	public LBListIterator<K,V> iterator() throws InvalidPositionException {
+	public LBListIterator<K, V> iterator() throws InvalidPositionException {
 		return new LBListIteratorClass<K, V>(head);
 	}
 }

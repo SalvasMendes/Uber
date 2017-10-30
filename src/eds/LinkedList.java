@@ -263,13 +263,20 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 		Node<E> nodeA = this.getNode(a);
 
 		Node<E> nodeAPrev = nodeA.getPrevious();
+		Node<E> nodeANext = nodeA.getNext();
+		Node<E> nodeBPrev = nodeB.getPrevious();
 		Node<E> nodeBNext = nodeB.getNext();
-
-		nodeA.setNext(nodeBNext);
-		nodeB.setNext(nodeA);
-		nodeB.setPrevious(nodeAPrev);
-		nodeA.setPrevious(nodeB);
-
+		if (nodeANext == nodeB || nodeBPrev == nodeA) {
+			nodeA.setNext(nodeBNext);
+			nodeB.setNext(nodeA);
+			nodeB.setPrevious(nodeAPrev);
+			nodeA.setPrevious(nodeB);
+		} else {
+			nodeA.setNext(nodeBNext);
+			nodeA.setPrevious(nodeBPrev);
+			nodeB.setNext(nodeANext);
+			nodeB.setPrevious(nodeAPrev);
+		}
 	}
 
 	public int getSize() {
