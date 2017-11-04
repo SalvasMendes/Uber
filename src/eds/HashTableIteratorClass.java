@@ -22,7 +22,7 @@ public class HashTableIteratorClass<K, V>
 		return iterator.hasNext();
 	}
 
-	public Bucket<K, V> next() throws InvalidPositionException {
+	public Bucket<K, V> next() throws InvalidPositionException, NoSuchElementException {
 
 		element = iterator.next();
 

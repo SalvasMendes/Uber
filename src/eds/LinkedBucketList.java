@@ -121,7 +121,7 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 		Bucket<K, V> bucket = head;
 		int currentPos = 0;
-
+		
 		while (bucket != null && !bucket.getKey().equals(key)) {
 			bucket.getNext();
 			currentPos++;

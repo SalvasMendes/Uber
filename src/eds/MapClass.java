@@ -14,6 +14,10 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V>{
 	public int nbr(){
 		return nbrEntries;
 	}
+	
+	public int getSize(){
+		return size;
+	}
 
 	@SuppressWarnings("unchecked")
 	public MapClass(int size) {
@@ -39,19 +43,41 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V>{
 
 	private int hashKey(K key, int size) {
 		hcode = key.hashCode();
-		Math.abs(hcode);
+		hcode = Math.abs(hcode);
 		index = hcode % size;
+		index = Math.abs(index);
 		return index;
+	}
+	
+	public int getIndex(K key){
+		int index = this.hashKey(key, size);
+		return index;
+	}
+	
+	public boolean exists(K key){
+		
+		index = hashKey(key, size);
+		LBList<K, V> temp = buckets[index];
+		
+		if(temp.isEmpty()){
+			return false;
+		}
+		else if(temp.findKey(key) == -1){
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 
 	public void add(K key, V value) throws InvalidPositionException {
 		if (nbrEntries / size == loadR) {
 			remap();
 			index = hashKey(key, size);
-			buckets[index].addLast(key, value);
+			buckets[index].orderedAdd(key, value);
 		} else {
 			index = hashKey(key, size);
-			buckets[index].addLast(key, value);
+			buckets[index].orderedAdd(key, value);
 		}
 		nbrEntries++;
 	}

@@ -1,5 +1,7 @@
 package eds;
 
+import java.util.NoSuchElementException;
+
 public interface LBList<K, V> {
 
 	void addLast(K key, V value);
@@ -25,5 +27,7 @@ public interface LBList<K, V> {
 	boolean isEmpty();
 	
 	LBListIterator<K,V> iterator() throws InvalidPositionException;
+	
+	void orderedAdd(K key, V value) throws NoSuchElementException, InvalidPositionException;
 
 }

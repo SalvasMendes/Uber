@@ -9,5 +9,9 @@ public interface Map<K, V> {
 	V find(K key) throws InvalidPositionException;
 
 	HashTableIterator<K, V> iterate() throws InvalidPositionException;
+	
+	boolean exists(K key);
+	 
+	int getSize();
 
 }

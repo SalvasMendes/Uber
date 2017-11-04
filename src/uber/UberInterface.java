@@ -3,6 +3,7 @@ package uber;
 import java.util.InputMismatchException;
 
 import eds.EmptyListException;
+import eds.HashTableIterator;
 import eds.InvalidPositionException;
 import eds.TwoWayIterator;
 import exceptions.DadosInvalidosException;
@@ -167,7 +168,7 @@ public interface UberInterface {
 	 * @throws InvalidPositionException
 	 * @throws EmptyListException
 	 */
-	TwoWayIterator<Home> platformHousesIterator(int people, String local)
+	HashTableIterator<String, Home> platformHousesIterator(int people, String local)
 			throws InputMismatchException, InvalidPositionException, EmptyListException;
 
 	/**
@@ -204,6 +205,6 @@ public interface UberInterface {
 	 * @throws InvalidPositionException
 	 * @throws EmptyListException
 	 */
-	TwoWayIterator<Home> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException;
+	HashTableIterator<String, Home> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException;
 
 }

@@ -101,9 +101,9 @@ public class Main {
 		String local = in.nextLine().trim();
 
 		try {
-			TwoWayIterator<Home> it = ub.bestHomesIterator(local);
+			HashTableIterator<String, Home> it = ub.bestHomesIterator(local);
 			while (it.hasNext()) {
-				Home home = it.next();
+				Home home = it.next().getObject();
 
 				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
 						home.getPrice(), home.getCap(), home.getScore());
@@ -125,9 +125,9 @@ public class Main {
 			int people = in.nextInt();
 			String local = in.nextLine().trim();
 
-			TwoWayIterator<Home> it = ub.platformHousesIterator(people, local);
+			HashTableIterator<String, Home> it = ub.platformHousesIterator(people, local);
 			while (it.hasNext()) {
-				Home home = it.next();
+				Home home = it.next().getObject();
 
 				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
 						home.getPrice(), home.getCap(), home.getScore());
