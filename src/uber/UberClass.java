@@ -6,7 +6,6 @@ import java.util.InputMismatchException;
 import eds.*;
 import exceptions.*;
 import home.*;
-import sort.*;
 import user.*;
 
 /**
@@ -30,7 +29,7 @@ public class UberClass implements UberInterface {
 			objIn.close();
 			fileIn.close();
 		} catch (FileNotFoundException fnf) {
-			users = new MapClass<String, UserInterface>();
+			users = new MapClass<String, UserInterface>(5000);
 		} catch (IOException i) {
 			i.printStackTrace();
 			return;
@@ -64,11 +63,11 @@ public class UberClass implements UberInterface {
 	public void createUser(String userId, String email, String phone, String name, String address, String nationality)
 			throws UserExistException, InvalidPositionException {
 
-		if (users.exists(userId))
+		if (users.exists(userId.toLowerCase()))
 			throw new UserExistException();
 		else {
 			UserInterface user = new UserClass(userId, email, phone, name, address, nationality);
-			users.add(userId, user);
+			users.add(userId.toLowerCase(), user);
 		}
 	}
 
@@ -77,69 +76,69 @@ public class UberClass implements UberInterface {
 
 		if (cap > 20 || cap < 1 || price < 0) {
 			throw new InputMismatchException();
-		} else if (!users.exists(userId)) {
+		} else if (!users.exists(userId.toLowerCase())) {
 			throw new UserInexistantException();
-		} else if (homes.exists(homeId)) {
+		} else if (homes.exists(homeId.toLowerCase())) {
 			throw new PropertyExistsException();
 		} else {
 
-			UserInterface owner = users.find(userId);
+			UserInterface owner = users.find(userId.toLowerCase());
 			Home home = new HomeClass(homeId, userId, local, description, address, price, cap, owner);
-			homes.add(homeId, home);
-			users.find(userId).createHome(home);
+			homes.add(homeId.toLowerCase(), home);
+			users.find(userId.toLowerCase()).createHome(home);
 		}
 	}
 
 	public void alterUser(String userId, String email, String phone, String address)
 			throws UserInexistantException, InvalidPositionException {
 
-		if (!users.exists(userId))
+		if (!users.exists(userId.toLowerCase()))
 			throw new UserInexistantException();
 		else {
-			users.find(userId).alterUser(email, phone, address);
+			users.find(userId.toLowerCase()).alterUser(email, phone, address);
 		}
 	}
 
 	public void removeUser(String userId)
 			throws UserInexistantException, UserHasPlaceException, EmptyListException, InvalidPositionException {
 
-		if (!users.exists(userId)) {
+		if (!users.exists(userId.toLowerCase())) {
 			throw new UserInexistantException();
-		} else if (users.find(userId).hasHomes()) {
+		} else if (users.find(userId.toLowerCase()).hasHomes()) {
 			throw new UserHasPlaceException();
 		} else {
-			users.remove(userId);
+			users.remove(userId.toLowerCase());
 		}
 	}
 
 	public UserInterface userInfo(String userId) throws UserInexistantException, InvalidPositionException {
-		if (!users.exists(userId))
+		if (!users.exists(userId.toLowerCase()))
 			throw new UserInexistantException();
 		else {
-			return users.find(userId);
+			return users.find(userId.toLowerCase());
 		}
 	}
 
 	public void removeHome(String homeId)
 			throws PropertyInexistantException, PropertyVisitedException, EmptyListException, InvalidPositionException {
 
-		if (!homes.exists(homeId))
+		if (!homes.exists(homeId.toLowerCase()))
 			throw new PropertyInexistantException();
 
-		else if (homes.find(homeId).isVisited())
+		else if (homes.find(homeId.toLowerCase()).isVisited())
 			throw new PropertyVisitedException();
 
 		else {
-			users.find(homes.find(homeId).getUserId()).removeHome(homeId);
-			homes.remove(homeId);
+			users.find(homes.find(homeId.toLowerCase()).getUserId()).removeHome(homeId.toLowerCase());
+			homes.remove(homeId.toLowerCase());
 		}
 	}
 
 	public Home homeInfo(String homeId) throws PropertyInexistantException, InvalidPositionException {
-		if (!homes.exists(homeId))
+		if (!homes.exists(homeId.toLowerCase()))
 			throw new PropertyInexistantException();
 
-		return homes.find(homeId);
+		return homes.find(homeId.toLowerCase());
 	}
 
 	public void addStay(String userId, String homeId, int points) throws DadosInvalidosException,
@@ -150,21 +149,21 @@ public class UberClass implements UberInterface {
 
 		} else {
 
-			if (!users.exists(userId)) {
+			if (!users.exists(userId.toLowerCase())) {
 				throw new UserInexistantException();
 
 			} else {
 
-				if (!homes.exists(homeId))
+				if (!homes.exists(homeId.toLowerCase()))
 					throw new PropertyInexistantException();
 
-				else if (users.find(userId).hasHome(homeId))
+				else if (users.find(userId.toLowerCase()).hasHome(homeId.toLowerCase()))
 					throw new TravellerIsHostException();
 
 				else {
-					Home home = homes.find(homeId);
+					Home home = homes.find(homeId.toLowerCase());
 					home.addScore(points);
-					users.find(userId).addStay(home);
+					users.find(userId.toLowerCase()).addStay(home);
 				}
 			}
 		}
@@ -173,21 +172,21 @@ public class UberClass implements UberInterface {
 	public void addStayNoPoints(String userId, String homeId) throws UserInexistantException,
 			PropertyInexistantException, TravellerIsNotHostException, InvalidPositionException {
 
-		if (users.exists(userId)) {
+		if (!users.exists(userId.toLowerCase())) {
 			throw new UserInexistantException();
 
 		} else {
 
 			UserInterface user = users.find(userId);
 
-			if (homes.exists(homeId))
+			if (!homes.exists(homeId.toLowerCase()))
 				throw new PropertyInexistantException();
 
 			else if (!(user.hasHome(homeId)))
 				throw new TravellerIsNotHostException();
 
 			else {
-				user.addStay(homes.find(homeId));
+				user.addStay(homes.find(homeId.toLowerCase()));
 			}
 		}
 	}
@@ -216,66 +215,77 @@ public class UberClass implements UberInterface {
 
 	public HashTableIterator<String, Home> platformHousesIterator(int people, String local)
 			throws InputMismatchException, InvalidPositionException, EmptyListException {
-
-		Map<String, Home> tempMap = new MapClass<String, Home>(users.getSize());
-		HashTableIterator<String, Home> it = homes.iterate();
-		
-		while (it.hasNext()) {
-			Home home = it.next().getObject();
-			if (home.getCap() >= people && home.getLocal().equalsIgnoreCase(local)) {
-				tempMap.add(home.getHomeId(), home);
-			}
-		}
-
-		if (people < 1 || people > 20) {
-			throw new InputMismatchException();
-
+		if (homes.nbr() == 0) {
+			throw new EmptyListException();
 		} else {
-			
-			return tempMap.iterate();
+			Map<String, Home> tempMap = new MapClass<String, Home>(users.getSize());
+			HashTableIterator<String, Home> it = homes.iterate();
+
+			while (it.hasNext()) {
+				Home home = it.next().getObject();
+				if (home.getCap() >= people && home.getLocal().equalsIgnoreCase(local)) {
+					tempMap.add(home.getHomeId().toLowerCase(), home);
+				}
+			}
+
+			if (people < 1 || people > 20) {
+				throw new InputMismatchException();
+
+			} else if (tempMap.nbr() == 0) {
+				throw new EmptyListException();
+			} else {
+				return tempMap.iterate();
+			}
 		}
 	}
 
 	public TwoWayIterator<Home> hostedHomesIterator(String userId)
 			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException {
 
-		if (!users.exists(userId))
+		if (!users.exists(userId.toLowerCase()))
 			throw new UserInexistantException();
 
-		else if (!users.find(userId).hasHomes())
+		else if (!users.find(userId.toLowerCase()).hasHomes())
 			throw new UserHasNoHomeException();
 
 		else {
-			return users.find(userId).hostedHomesIterator();
+			return users.find(userId.toLowerCase()).hostedHomesIterator();
 		}
 	}
 
 	public TwoWayIterator<Home> travalledHomesIterator(String userId)
 			throws UserInexistantException, UserNotTravalledException, InvalidPositionException, EmptyListException {
 
-
-		if (!users.exists(userId))
+		if (!users.exists(userId.toLowerCase()))
 			throw new UserInexistantException();
 
-		else if (!users.find(userId).hasTravelled())
+		else if (!users.find(userId.toLowerCase()).hasTravelled())
 			throw new UserNotTravalledException();
 		else {
-			return users.find(userId).travalledHomesIterator();
+			return users.find(userId.toLowerCase()).travalledHomesIterator();
 		}
 	}
 
-	public HashTableIterator<String, Home> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException {
-		
-		Map<String, Home> tempMap = new MapClass<String, Home>(users.getSize());
-		HashTableIterator<String, Home> it = homes.iterate();
-		
-		while (it.hasNext()) {
-			Home home = it.next().getObject();
-			if (home.getLocal().equalsIgnoreCase(local)) {
-				tempMap.add(home.getHomeId(), home);
+	public HashTableIterator<String, Home> bestHomesIterator(String local)
+			throws InvalidPositionException, EmptyListException {
+
+		if (homes.nbr() == 0) {
+			throw new EmptyListException();
+		} else {
+			Map<String, Home> tempMap = new MapClass<String, Home>(users.getSize());
+			HashTableIterator<String, Home> it = homes.iterate();
+
+			while (it.hasNext()) {
+				Home home = it.next().getObject();
+				if (home.getLocal().equalsIgnoreCase(local)) {
+					tempMap.add(home.getHomeId(), home);
+				}
+			}
+			if (tempMap.nbr() == 0) {
+				throw new EmptyListException();
+			} else {
+				return tempMap.iterate();
 			}
 		}
-
-		return tempMap.iterate();
 	}
 }

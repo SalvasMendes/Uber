@@ -18,8 +18,7 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 	public void orderedAdd(K key, V value) throws NoSuchElementException, InvalidPositionException {
 		Bucket<K, V> newBucket;
 		if (size == 0) {
-			newBucket = new BucketClass<K, V>(head, key, value, null);// faz sentido ter a head como next se nao tem
-																		// nada
+			newBucket = new BucketClass<K, V>(head, key, value, null);
 			head = newBucket;
 			tail = newBucket;
 			size++;
@@ -27,12 +26,13 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 			addLast(key, value);
 		} else if (key.toString().compareTo(head.getKey().toString()) < 0) {
 			newBucket = new BucketClass<K, V>(head, key, value, null);
+			head.setPrevious(newBucket);
 			head = newBucket;
 			size++;
 		} else {
-			Bucket<K, V> temp = getBucket(findEntry(key));
-			newBucket = new BucketClass<K, V>(temp, key, value, temp.getPrevious());
-			temp.setPrevious(newBucket);
+			//Bucket<K, V> temp = getBucket(findEntry(key));
+			newBucket = new BucketClass<K, V>(getBucket(findEntry(key)), key, value,getBucket(findEntry(key)).getPrevious());
+			getBucket(findEntry(key)).setPrevious(newBucket);
 			size++;
 		}
 	}
@@ -42,7 +42,8 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		LBListIterator<K, V> it = iterator();
 		String tempKey;
 		boolean found = false;
-		int i = 0;
+		int i = 1;
+		it.next();
 		while (it.hasNext() && !found) {
 			tempKey = it.next().getKey().toString();
 			if (sKey.compareTo(tempKey) <= 0) {
@@ -121,15 +122,15 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 
 		Bucket<K, V> bucket = head;
 		int currentPos = 0;
-		
-		while (bucket != null && !bucket.getKey().equals(key)) {
-			bucket.getNext();
+
+		while (bucket != null) {
+			if(bucket.getKey().equals(key)){
+				return currentPos;
+			}
+			bucket = bucket.getNext();
 			currentPos++;
 		}
-		if (bucket == null) {
-			return -1;
-		}
-		return currentPos;
+		return -1;
 	}
 
 	protected void removeFirst() {
@@ -203,7 +204,7 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 	}
 
 	public void swapNode(int a, int b) throws InvalidPositionException {
-		
+
 		Bucket<K, V> nodeB = this.getBucket(b);
 		Bucket<K, V> nodeA = this.getBucket(a);
 

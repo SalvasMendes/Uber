@@ -71,7 +71,8 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V>{
 	}
 
 	public void add(K key, V value) throws InvalidPositionException {
-		if (nbrEntries / size == loadR) {
+		
+		if ((double)nbrEntries / (double)size == loadR) {
 			remap();
 			index = hashKey(key, size);
 			buckets[index].orderedAdd(key, value);
@@ -93,7 +94,7 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V>{
 		while (it.hasNext()) {
 			tempObj = it.next();
 			tempkey = tempObj.getKey();
-			temp[hashKey(tempkey, newSize)].addLast(tempkey, tempObj.getObject());
+			temp[hashKey(tempkey, newSize)].orderedAdd(tempkey, tempObj.getObject());
 		}
 		size = newSize;
 		buckets = temp;

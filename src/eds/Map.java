@@ -13,5 +13,6 @@ public interface Map<K, V> {
 	boolean exists(K key);
 	 
 	int getSize();
-
+	
+	int nbr();
 }

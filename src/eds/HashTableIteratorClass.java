@@ -43,7 +43,7 @@ public class HashTableIteratorClass<K, V>
 
 	private void getNext() throws InvalidPositionException {
 		done = false;
-		while (current <= (table.length - 1) && !done) {
+		while (current < table.length && !done) {
 			if (!table[current].isEmpty()) {
 				iterator = table[current].iterator();
 				done = true;
