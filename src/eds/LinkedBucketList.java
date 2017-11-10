@@ -2,6 +2,14 @@ package eds;
 
 import java.util.NoSuchElementException;
 
+/**
+ *
+ * @author Salvador Mendes (50503) sr.mendes@campus.fct.unl.pt
+ * @author Miguel Candeias (50647) mb.candeias@campus.fct.unl.pt
+ *
+ * @param <K>
+ * @param <V>
+ */
 public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V> {
 
 	private static final long serialVersionUID = 657L;
@@ -30,8 +38,8 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 			head = newBucket;
 			size++;
 		} else {
-			//Bucket<K, V> temp = getBucket(findEntry(key));
-			newBucket = new BucketClass<K, V>(getBucket(findEntry(key)), key, value,getBucket(findEntry(key)).getPrevious());
+			newBucket = new BucketClass<K, V>(getBucket(findEntry(key)), key, value,
+					getBucket(findEntry(key)).getPrevious());
 			getBucket(findEntry(key)).setPrevious(newBucket);
 			size++;
 		}
@@ -124,7 +132,7 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		int currentPos = 0;
 
 		while (bucket != null) {
-			if(bucket.getKey().equals(key)){
+			if (bucket.getKey().equals(key)) {
 				return currentPos;
 			}
 			bucket = bucket.getNext();
@@ -188,7 +196,6 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 		} else {
 			Bucket<K, V> bucket = this.getBucket(pos);
 			if (bucket == null) {
-				// lança exeçao
 			} else {
 				if (bucket == head)
 					return (this.removeHead());

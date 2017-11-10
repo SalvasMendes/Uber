@@ -2,6 +2,14 @@ package eds;
 
 import java.util.NoSuchElementException;
 
+/**
+ * 
+ * @author Salvador Mendes (50503) sr.mendes@campus.fct.unl.pt
+ * @author Miguel Candeias (50647) mb.candeias@campus.fct.unl.pt
+ *
+ * @param <K>
+ * @param <V>
+ */
 public interface LBListIterator<K, V> {
 
     /** 

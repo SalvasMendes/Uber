@@ -21,7 +21,6 @@ public class UberClass implements UberInterface {
 
 	@SuppressWarnings("unchecked")
 	public UberClass() {
-		// TODO : VERIFICAR SE TODAS AS CENAS SAO SERIALIZAVEIS
 		try {
 			FileInputStream fileIn = new FileInputStream("users.ser");
 			ObjectInputStream objIn = new ObjectInputStream(fileIn);
@@ -29,7 +28,7 @@ public class UberClass implements UberInterface {
 			objIn.close();
 			fileIn.close();
 		} catch (FileNotFoundException fnf) {
-			users = new MapClass<String, UserInterface>(5000);
+			users = new MapClass<String, UserInterface>();
 		} catch (IOException i) {
 			i.printStackTrace();
 			return;
@@ -55,9 +54,6 @@ public class UberClass implements UberInterface {
 			c.printStackTrace();
 			return;
 		}
-
-		// homes = new LinkedList<Home>();
-		// users = new LinkedList<UserInterface>();
 	}
 
 	public void createUser(String userId, String email, String phone, String name, String address, String nationality)

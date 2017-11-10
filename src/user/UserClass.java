@@ -58,13 +58,10 @@ public class UserClass implements UserInterface, java.io.Serializable {
 
 	public void removeHome(String homeID) throws InvalidPositionException, EmptyListException {
 		hostedHomes.remove(searchHome(homeID));
-		// TODO refazer --> percorrer a lista 2 vezes
-
 	}
 
 	public boolean hasHome(String homeId) throws InvalidPositionException {
 		return (searchHome(homeId) >= 0);
-
 	}
 
 	public TwoWayIterator<Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException {
