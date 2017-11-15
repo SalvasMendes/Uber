@@ -17,6 +17,8 @@ public interface Bucket<K, V> {
 	 */
 	public Bucket<K, V> getNext();
 
+	void setValue(V value);
+
 	/**
 	 * Sets the next bucket
 	 * 
@@ -36,13 +38,13 @@ public interface Bucket<K, V> {
 	 * @return A reference to the previous bucket
 	 */
 	public Bucket<K, V> getPrevious();
-	
+
 	/**
 	 * 
 	 * @return Object
 	 */
 	public V getObject();
-	
+
 	/**
 	 * 
 	 * @return Key

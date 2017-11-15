@@ -23,6 +23,16 @@ public class BucketClass<K, V> implements java.io.Serializable, Bucket<K, V> {
 		this.previous = previous;
 
 	}
+	
+	public BucketClass(K key, V value) {
+		this.key = key;
+		this.value = value;
+		
+	}
+	
+	public void setValue(V value){
+		this.value = value;
+	}
 
 	public Bucket<K, V> getNext() {
 		return next;
