@@ -94,6 +94,7 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 			remap();
 			index = hashKey(key, size);
 			buckets[index].orderedAdd(key, value);
+			
 		} else {
 			index = hashKey(key, size);
 			buckets[index].orderedAdd(key, value);
@@ -142,6 +143,12 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 
 	public HashTableIterator<K, V> iterate() throws InvalidPositionException {
 		return new HashTableIteratorClass<K, V>(buckets);
+	}
+
+	@Override
+	public TreeIterator<K, V> iterator() throws EmptyStackException, EmptyListException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

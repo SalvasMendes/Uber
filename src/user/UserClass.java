@@ -2,7 +2,6 @@ package user;
 
 import eds.*;
 import home.*;
-import sort.*;
 
 /**
  * 
@@ -13,12 +12,12 @@ import sort.*;
 public class UserClass implements UserInterface, java.io.Serializable {
 
 	private static final long serialVersionUID = 657L;
-	private DLList<Home> hostedHomes;
+	private Map<String, Home> hostedHomes;
 	private DLList<Home> travelledHomes;
 	private String userId, email, phone, name, address, nationality;
 
 	public UserClass(String userId, String email, String phone, String name, String address, String nationality) {
-		hostedHomes = new LinkedList<Home>();
+		hostedHomes = new BinarySearchTree<String, Home>();
 		travelledHomes = new LinkedList<Home>();
 		this.userId = userId;
 		this.email = email;
@@ -52,43 +51,24 @@ public class UserClass implements UserInterface, java.io.Serializable {
 		return nationality;
 	}
 
-	public void createHome(Home home) {
-		hostedHomes.addLast(home);
+	public void createHome(Home home) throws InvalidPositionException {
+		hostedHomes.add(home.getHomeId(), home);
 	}
 
 	public void removeHome(String homeID) throws InvalidPositionException, EmptyListException {
-		hostedHomes.remove(searchHome(homeID));
+		hostedHomes.remove(homeID);
 	}
 
 	public boolean hasHome(String homeId) throws InvalidPositionException {
-		return (searchHome(homeId) >= 0);
+		return (hostedHomes.find(homeId) != null);
 	}
 
-	public TwoWayIterator<Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException {
-		QuickSort qs = new QuickSortClass();
-		qs.sortID(hostedHomes);
-		return new TwoWayIteratorClass<Home>(hostedHomes.getFirst(), hostedHomes.getLast());
-
+	public TreeIterator<String, Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException, EmptyStackException {
+		
+		return hostedHomes.iterator();
 	}
 	
-	/**
-	 * This method returns the position of a house given its homeID, in the list
-	 * @param homeID
-	 * @return
-	 * @throws InvalidPositionException
-	 */
-	private int searchHome(String homeID) throws InvalidPositionException {
-		int result = -1;
-		boolean found = false;
-		for (int i = 0; i < hostedHomes.getSize() && !found; i++) {
-			if (hostedHomes.get(i).getHomeId().equalsIgnoreCase(homeID)) {
-				result = i;
-				found = true;
-			}
-		}
-		return result;
-
-	}
+	
 
 	public void addStay(Home home) {
 		travelledHomes.addLast(home);

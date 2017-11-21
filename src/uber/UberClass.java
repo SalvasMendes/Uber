@@ -18,6 +18,7 @@ public class UberClass implements UberInterface {
 
 	private Map<String, UserInterface> users;
 	private Map<String, Home> homes;
+	private Map<Integer, Home>orderedHomes;
 
 	@SuppressWarnings("unchecked")
 	public UberClass() {
@@ -77,11 +78,12 @@ public class UberClass implements UberInterface {
 		} else if (homes.exists(homeId.toLowerCase())) {
 			throw new PropertyExistsException();
 		} else {
-
+	
 			UserInterface owner = users.find(userId.toLowerCase());
 			Home home = new HomeClass(homeId, userId, local, description, address, price, cap, owner);
 			homes.add(homeId.toLowerCase(), home);
 			users.find(userId.toLowerCase()).createHome(home);
+			orderedHomes.add(0, home);
 		}
 	}
 
@@ -126,6 +128,7 @@ public class UberClass implements UberInterface {
 
 		else {
 			users.find(homes.find(homeId.toLowerCase()).getUserId()).removeHome(homeId.toLowerCase());
+			orderedHomes.remove(homes.find(homeId).getScore());
 			homes.remove(homeId.toLowerCase());
 		}
 	}
@@ -158,7 +161,10 @@ public class UberClass implements UberInterface {
 
 				else {
 					Home home = homes.find(homeId.toLowerCase());
+					int a = home.getScore();
+					orderedHomes.remove(a);
 					home.addScore(points);
+					orderedHomes.add(a + points, home);
 					users.find(userId.toLowerCase()).addStay(home);
 				}
 			}
@@ -235,8 +241,8 @@ public class UberClass implements UberInterface {
 		}
 	}
 
-	public TwoWayIterator<Home> hostedHomesIterator(String userId)
-			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException {
+	public TreeIterator<String, Home> hostedHomesIterator(String userId)
+			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException, EmptyStackException {
 
 		if (!users.exists(userId.toLowerCase()))
 			throw new UserInexistantException();
@@ -261,26 +267,29 @@ public class UberClass implements UberInterface {
 			return users.find(userId.toLowerCase()).travalledHomesIterator();
 		}
 	}
+	
+	//TODO: alterar o iterador da main do hostedHomes
 
-	public HashTableIterator<String, Home> bestHomesIterator(String local)
-			throws InvalidPositionException, EmptyListException {
+	public TwoWayIterator<Home> bestHomesIterator(String local)
+			throws InvalidPositionException, EmptyListException, EmptyStackException {
 
 		if (homes.nbr() == 0) {
 			throw new EmptyListException();
 		} else {
-			Map<String, Home> tempMap = new MapClass<String, Home>(users.getSize());
-			HashTableIterator<String, Home> it = homes.iterate();
+			
+			TreeIterator<Integer, Home> it = orderedHomes.iterator();
+			DLList<Home> tempList = new LinkedList<Home>();
 
 			while (it.hasNext()) {
-				Home home = it.next().getObject();
+				Home home = it.next().getValue();
 				if (home.getLocal().equalsIgnoreCase(local)) {
-					tempMap.add(home.getHomeId(), home);
+					tempList.addLast(home);
 				}
 			}
-			if (tempMap.nbr() == 0) {
+			if (tempList.isEmpty()) {
 				throw new EmptyListException();
 			} else {
-				return tempMap.iterate();
+				return new TwoWayIteratorClass<>(tempList.getFirst(), tempList.getLast());
 			}
 		}
 	}

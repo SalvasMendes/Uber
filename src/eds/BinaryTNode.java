@@ -59,4 +59,5 @@ public class BinaryTNode<K, V> implements Serializable, BinaryTNodeInterface<K, 
 	public boolean isLeaf(){
 		return ((leftChild == null) && (rightChild == null));
 	}
+
 }

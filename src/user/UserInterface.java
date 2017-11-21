@@ -1,7 +1,9 @@
 package user;
 
 import eds.EmptyListException;
+import eds.EmptyStackException;
 import eds.InvalidPositionException;
+import eds.TreeIterator;
 import eds.TwoWayIterator;
 import home.*;
 
@@ -53,8 +55,9 @@ public interface UserInterface {
 	 * This method allows a user to regist a property
 	 * 
 	 * @param home
+	 * @throws InvalidPositionException 
 	 */
-	void createHome(Home home);
+	void createHome(Home home) throws InvalidPositionException;
 
 	/**
 	 * This method removes one house of a user, given a homeID
@@ -100,8 +103,9 @@ public interface UserInterface {
 	 * @return A iterator of hosted properties
 	 * @throws InvalidPositionException
 	 * @throws EmptyListException
+	 * @throws EmptyStackException 
 	 */
-	TwoWayIterator<Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException;
+	TreeIterator<String, Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException, EmptyStackException;
 
 	/**
 	 * 

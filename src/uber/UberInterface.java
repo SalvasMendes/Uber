@@ -3,8 +3,10 @@ package uber;
 import java.util.InputMismatchException;
 
 import eds.EmptyListException;
+import eds.EmptyStackException;
 import eds.HashTableIterator;
 import eds.InvalidPositionException;
+import eds.TreeIterator;
 import eds.TwoWayIterator;
 import exceptions.DadosInvalidosException;
 import exceptions.PropertyExistsException;
@@ -180,9 +182,10 @@ public interface UberInterface {
 	 * @throws UserHasNoHomeException
 	 * @throws InvalidPositionException
 	 * @throws EmptyListException
+	 * @throws EmptyStackException 
 	 */
-	TwoWayIterator<Home> hostedHomesIterator(String userId)
-			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException;
+	TreeIterator<String, Home> hostedHomesIterator(String userId)
+			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException, EmptyStackException;
 
 	/**
 	 * Returns a iterator of all houses travelled by a user
@@ -204,7 +207,10 @@ public interface UberInterface {
 	 * @return
 	 * @throws InvalidPositionException
 	 * @throws EmptyListException
+	 * @throws EmptyStackException 
 	 */
-	HashTableIterator<String, Home> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException;
+	TwoWayIterator<Home> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException, EmptyStackException;
+	
+	
 
 }

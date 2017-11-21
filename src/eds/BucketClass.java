@@ -58,4 +58,10 @@ public class BucketClass<K, V> implements java.io.Serializable, Bucket<K, V> {
 		return key;
 	}
 
+	
+	public void setKey(K key) {
+		this.key = key;
+		
+	}
+
 }

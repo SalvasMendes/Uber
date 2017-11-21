@@ -50,5 +50,7 @@ public interface Bucket<K, V> {
 	 * @return Key
 	 */
 	public K getKey();
+	
+	public void setKey(K key);
 
 }

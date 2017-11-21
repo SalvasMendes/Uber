@@ -65,4 +65,6 @@ public interface Map<K, V> {
 	 * @return the number of entries in the hashtable
 	 */
 	int nbr();
+	
+	TreeIterator<K,V> iterator( ) throws EmptyStackException, EmptyListException;
 }

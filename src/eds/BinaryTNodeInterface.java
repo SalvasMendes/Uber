@@ -21,5 +21,5 @@ public interface BinaryTNodeInterface<K, V> {
 	void setLeftChild(BinaryTNodeInterface<K, V> node);
 
 	boolean isLeaf();
-
+	
 }

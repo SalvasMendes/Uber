@@ -101,19 +101,21 @@ public class Main {
 		String local = in.nextLine().trim();
 
 		try {
-			HashTableIterator<String, Home> it = ub.bestHomesIterator(local);
+			TwoWayIterator<Home> it = ub.bestHomesIterator(local);
 			while (it.hasNext()) {
-				Home home = it.next().getObject();
+				Home home = it.next();
 
 				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
 						home.getPrice(), home.getCap(), home.getScore());
 
 			}
-
+		
 		} catch (EmptyListException e) {
 			System.out.println(e.getMessage());
 
 		} catch (InvalidPositionException e) {
+			System.out.println(e.getMessage());
+		} catch (eds.EmptyStackException e) {
 			System.out.println(e.getMessage());
 		}
 
@@ -176,9 +178,9 @@ public class Main {
 		in.nextLine();
 
 		try {
-			TwoWayIterator<Home> it = ub.hostedHomesIterator(userId);
+			TreeIterator<String, Home> it = ub.hostedHomesIterator(userId);
 			while (it.hasNext()) {
-				Home home = it.next();
+				Home home = it.next().getValue();
 				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
 						home.getPrice(), home.getCap(), home.getScore());
 			}
@@ -191,6 +193,8 @@ public class Main {
 		} catch (EmptyListException e) {
 			System.out.println(e.getMessage());
 
+		} catch (eds.EmptyStackException e) {
+			System.out.println(e.getMessage());
 		}
 
 	}
