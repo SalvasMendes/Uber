@@ -17,7 +17,7 @@ public class BSTNode<K,V> implements Serializable
 	/**
 	 * Serial Version UID of the Class.
 	 */
-    static final long serialVersionUID = 0L;
+    static final long serialVersionUID = 657L;
 
 
     /**
@@ -36,6 +36,8 @@ public class BSTNode<K,V> implements Serializable
      * 
      */
     private BSTNode<K,V> rightChild;
+    
+    private boolean isAlone;
 
 
     /**
@@ -50,7 +52,8 @@ public class BSTNode<K,V> implements Serializable
     {                                                                
         entry = new BucketClass<K,V>(key, value);
         leftChild = left; 
-        rightChild = right;                                      
+        rightChild = right;  
+        isAlone = true;
     }
 
 
@@ -85,6 +88,14 @@ public class BSTNode<K,V> implements Serializable
     public K getKey( )                           
     {
         return entry.getKey();
+    }
+    
+    public boolean isAlone(){
+    	return isAlone;
+    }
+    
+    public void notAlone(){
+    	isAlone = false;
     }
 
 

@@ -2,9 +2,9 @@ package uber;
 
 import java.util.InputMismatchException;
 
+import eds.DLList;
 import eds.EmptyListException;
 import eds.EmptyStackException;
-import eds.HashTableIterator;
 import eds.InvalidPositionException;
 import eds.TreeIterator;
 import eds.TwoWayIterator;
@@ -169,9 +169,10 @@ public interface UberInterface {
 	 * @throws InputMismatchException
 	 * @throws InvalidPositionException
 	 * @throws EmptyListException
+	 * @throws EmptyStackException 
 	 */
-	HashTableIterator<String, Home> platformHousesIterator(int people, String local)
-			throws InputMismatchException, InvalidPositionException, EmptyListException;
+	TreeIterator<String, Home> platformHousesIterator(int people, String local)
+			throws InputMismatchException, InvalidPositionException, EmptyListException, EmptyStackException;
 
 	/**
 	 * Returns a iterator of all the houses hosted by a user
@@ -209,7 +210,7 @@ public interface UberInterface {
 	 * @throws EmptyListException
 	 * @throws EmptyStackException 
 	 */
-	TwoWayIterator<Home> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException, EmptyStackException;
+	TreeIterator<Integer, DLList<Home>> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException, EmptyStackException;
 	
 	
 

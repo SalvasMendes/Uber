@@ -52,11 +52,13 @@ public class UserClass implements UserInterface, java.io.Serializable {
 	}
 
 	public void createHome(Home home) throws InvalidPositionException {
-		hostedHomes.add(home.getHomeId(), home);
+		hostedHomes.add(home.getHomeId().toLowerCase(), home);
 	}
 
 	public void removeHome(String homeID) throws InvalidPositionException, EmptyListException {
+		//System.out.println(hostedHomes.find(homeID).getLocal());
 		hostedHomes.remove(homeID);
+		//System.out.println(hostedHomes.getSize());
 	}
 
 	public boolean hasHome(String homeId) throws InvalidPositionException {

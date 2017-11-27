@@ -8,13 +8,13 @@ package eds;
  * @param <V> Generic type Value 
  */
 public class BinarySearchTree<K extends Comparable<K>, V> 
-    implements Map<K,V>
+    implements Map<K,V>, java.io.Serializable
 {                                                                   
 
 	/**
 	 * Serial Version UID of the Class.
 	 */
-    static final long serialVersionUID = 0L;
+    static final long serialVersionUID = 657L;
 
 
     /**
@@ -222,12 +222,11 @@ public class BinarySearchTree<K extends Comparable<K>, V>
     {                                                                   
         PathStep<K,V> lastStep = new PathStep<K,V>(null, false);
         BSTNode<K,V> node = this.findNode(key, lastStep);
-        if ( node == null )
+        if ( node == null)
         {
             BSTNode<K,V> newLeaf = new BSTNode<K,V>(key, value);
             this.linkSubtree(newLeaf, lastStep);
             currentSize++;
-           
         }                                 
         else 
         {

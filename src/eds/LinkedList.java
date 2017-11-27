@@ -287,5 +287,13 @@ public class LinkedList<E> implements DLList<E>, java.io.Serializable {
 	public boolean isEmpty() {
 		return (size == 0);
 	}
+	
+	public void sort(){
+		
+	}
+	
+	public TwoWayIterator<E>twoWayIterator() throws InvalidPositionException{
+		return new TwoWayIteratorClass<E>(this.head, this.tail);
+	}
 
 }

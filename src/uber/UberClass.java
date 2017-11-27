@@ -18,7 +18,6 @@ public class UberClass implements UberInterface {
 
 	private Map<String, UserInterface> users;
 	private Map<String, Home> homes;
-	private Map<Integer, Home>orderedHomes;
 
 	@SuppressWarnings("unchecked")
 	public UberClass() {
@@ -55,6 +54,7 @@ public class UberClass implements UberInterface {
 			c.printStackTrace();
 			return;
 		}
+
 	}
 
 	public void createUser(String userId, String email, String phone, String name, String address, String nationality)
@@ -78,12 +78,11 @@ public class UberClass implements UberInterface {
 		} else if (homes.exists(homeId.toLowerCase())) {
 			throw new PropertyExistsException();
 		} else {
-	
+
 			UserInterface owner = users.find(userId.toLowerCase());
 			Home home = new HomeClass(homeId, userId, local, description, address, price, cap, owner);
 			homes.add(homeId.toLowerCase(), home);
 			users.find(userId.toLowerCase()).createHome(home);
-			orderedHomes.add(0, home);
 		}
 	}
 
@@ -128,7 +127,6 @@ public class UberClass implements UberInterface {
 
 		else {
 			users.find(homes.find(homeId.toLowerCase()).getUserId()).removeHome(homeId.toLowerCase());
-			orderedHomes.remove(homes.find(homeId).getScore());
 			homes.remove(homeId.toLowerCase());
 		}
 	}
@@ -161,10 +159,7 @@ public class UberClass implements UberInterface {
 
 				else {
 					Home home = homes.find(homeId.toLowerCase());
-					int a = home.getScore();
-					orderedHomes.remove(a);
 					home.addScore(points);
-					orderedHomes.add(a + points, home);
 					users.find(userId.toLowerCase()).addStay(home);
 				}
 			}
@@ -213,14 +208,15 @@ public class UberClass implements UberInterface {
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
+
 	}
 
-	public HashTableIterator<String, Home> platformHousesIterator(int people, String local)
-			throws InputMismatchException, InvalidPositionException, EmptyListException {
+	public TreeIterator<String, Home> platformHousesIterator(int people, String local)
+			throws InputMismatchException, InvalidPositionException, EmptyListException, EmptyStackException {
 		if (homes.nbr() == 0) {
 			throw new EmptyListException();
 		} else {
-			Map<String, Home> tempMap = new MapClass<String, Home>(users.getSize());
+			Map<String, Home> tempMap = new BinarySearchTree<String, Home>();
 			HashTableIterator<String, Home> it = homes.iterate();
 
 			while (it.hasNext()) {
@@ -233,16 +229,16 @@ public class UberClass implements UberInterface {
 			if (people < 1 || people > 20) {
 				throw new InputMismatchException();
 
-			} else if (tempMap.nbr() == 0) {
+			} else if (tempMap.getSize()==0) {
 				throw new EmptyListException();
 			} else {
-				return tempMap.iterate();
+				return tempMap.iterator();
 			}
 		}
 	}
 
-	public TreeIterator<String, Home> hostedHomesIterator(String userId)
-			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException, EmptyStackException {
+	public TreeIterator<String, Home> hostedHomesIterator(String userId) throws UserInexistantException,
+			UserHasNoHomeException, InvalidPositionException, EmptyListException, EmptyStackException {
 
 		if (!users.exists(userId.toLowerCase()))
 			throw new UserInexistantException();
@@ -267,29 +263,35 @@ public class UberClass implements UberInterface {
 			return users.find(userId.toLowerCase()).travalledHomesIterator();
 		}
 	}
-	
-	//TODO: alterar o iterador da main do hostedHomes
 
-	public TwoWayIterator<Home> bestHomesIterator(String local)
+	public TreeIterator<Integer,DLList<Home>> bestHomesIterator(String local)
 			throws InvalidPositionException, EmptyListException, EmptyStackException {
 
 		if (homes.nbr() == 0) {
 			throw new EmptyListException();
 		} else {
-			
-			TreeIterator<Integer, Home> it = orderedHomes.iterator();
-			DLList<Home> tempList = new LinkedList<Home>();
+
+			HashTableIterator<String, Home> it = homes.iterate();
+			Map<Integer, DLList<Home>> tempMap = new BinarySearchTree<Integer, DLList<Home>>();
 
 			while (it.hasNext()) {
-				Home home = it.next().getValue();
+				Home home = it.next().getObject();
 				if (home.getLocal().equalsIgnoreCase(local)) {
-					tempList.addLast(home);
+					int score = home.getScore();
+					tempMap.find(score);
+					if (tempMap.find(score) != null) {
+						tempMap.find(score).addLast(home);
+					} else {
+						DLList<Home> list = new LinkedList<>();
+						list.addLast(home);
+						tempMap.add(score, list);
+					}
 				}
 			}
-			if (tempList.isEmpty()) {
+			if (tempMap.getSize() == 0) {
 				throw new EmptyListException();
 			} else {
-				return new TwoWayIteratorClass<>(tempList.getFirst(), tempList.getLast());
+				return tempMap.iterator();
 			}
 		}
 	}

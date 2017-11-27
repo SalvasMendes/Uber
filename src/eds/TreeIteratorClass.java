@@ -18,7 +18,7 @@ public class TreeIteratorClass<K,V> implements TreeIterator<K, V> {
 	
 	
 	public boolean hasNext() throws EmptyStackException, EmptyListException{
-		return stack.isEmpty();
+		return !stack.isEmpty();
 		
 	}
 	

@@ -6,6 +6,7 @@ import exceptions.*;
 import home.*;
 import uber.*;
 import user.*;
+
 /**
  * 
  * @author Salvador Mendes (50503) sr.mendes@campus.fct.unl.pt
@@ -101,15 +102,19 @@ public class Main {
 		String local = in.nextLine().trim();
 
 		try {
-			TwoWayIterator<Home> it = ub.bestHomesIterator(local);
-			while (it.hasNext()) {
-				Home home = it.next();
+			TreeIterator<Integer, DLList<Home>> it = ub.bestHomesIterator(local);
 
-				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
-						home.getPrice(), home.getCap(), home.getScore());
+			while (it.hasNext()) {
+				TwoWayIterator<Home> itt = it.next().getValue().twoWayIterator();
+				while (itt.hasNext()) {
+					Home home = itt.next();
+					System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
+							home.getPrice(), home.getCap(), home.getScore());
+
+				}
 
 			}
-		
+
 		} catch (EmptyListException e) {
 			System.out.println(e.getMessage());
 
@@ -127,9 +132,9 @@ public class Main {
 			int people = in.nextInt();
 			String local = in.nextLine().trim();
 
-			HashTableIterator<String, Home> it = ub.platformHousesIterator(people, local);
+			TreeIterator<String, Home> it = ub.platformHousesIterator(people, local);
 			while (it.hasNext()) {
-				Home home = it.next().getObject();
+				Home home = it.next().getValue();
 
 				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
 						home.getPrice(), home.getCap(), home.getScore());
@@ -144,6 +149,9 @@ public class Main {
 
 		} catch (EmptyListException e) {
 			System.out.println(e.getMessage());
+		} catch (EmptyStackException e) {
+			System.out.println(e.getMessage());
+
 		}
 
 	}

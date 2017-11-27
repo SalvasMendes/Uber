@@ -139,5 +139,9 @@ public interface DLList<E> {
 	 * @throws EmptyListException 
 	 */
 	void swapNode(int a, int b) throws InvalidPositionException;
+	
+	TwoWayIterator<E>twoWayIterator() throws InvalidPositionException;
+	
+	
 
 }
