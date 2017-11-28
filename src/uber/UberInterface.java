@@ -2,12 +2,7 @@ package uber;
 
 import java.util.InputMismatchException;
 
-import eds.DLList;
-import eds.EmptyListException;
-import eds.EmptyStackException;
-import eds.InvalidPositionException;
-import eds.TreeIterator;
-import eds.TwoWayIterator;
+import eds.*;
 import exceptions.DadosInvalidosException;
 import exceptions.PropertyExistsException;
 import exceptions.PropertyInexistantException;
@@ -210,7 +205,7 @@ public interface UberInterface {
 	 * @throws EmptyListException
 	 * @throws EmptyStackException 
 	 */
-	TreeIterator<Integer, DLList<Home>> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException, EmptyStackException;
+	TreeIterator<Integer, LBList<String, Home>> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException, EmptyStackException;
 	
 	
 

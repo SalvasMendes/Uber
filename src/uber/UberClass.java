@@ -264,7 +264,7 @@ public class UberClass implements UberInterface {
 		}
 	}
 
-	public TreeIterator<Integer,DLList<Home>> bestHomesIterator(String local)
+	public TreeIterator<Integer,LBList<String, Home>> bestHomesIterator(String local)
 			throws InvalidPositionException, EmptyListException, EmptyStackException {
 
 		if (homes.nbr() == 0) {
@@ -272,7 +272,7 @@ public class UberClass implements UberInterface {
 		} else {
 
 			HashTableIterator<String, Home> it = homes.iterate();
-			Map<Integer, DLList<Home>> tempMap = new BinarySearchTree<Integer, DLList<Home>>();
+			Map<Integer, LBList<String, Home>> tempMap = new BinarySearchTree<Integer, LBList<String, Home>>();
 
 			while (it.hasNext()) {
 				Home home = it.next().getObject();
@@ -280,10 +280,10 @@ public class UberClass implements UberInterface {
 					int score = home.getScore();
 					tempMap.find(score);
 					if (tempMap.find(score) != null) {
-						tempMap.find(score).addLast(home);
+						tempMap.find(score).orderedAdd(home.getHomeId(), home);
 					} else {
-						DLList<Home> list = new LinkedList<>();
-						list.addLast(home);
+						LBList<String, Home> list = new LinkedBucketList<String, Home>();
+						list.orderedAdd(home.getHomeId(), home);
 						tempMap.add(score, list);
 					}
 				}
