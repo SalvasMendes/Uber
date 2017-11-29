@@ -3,7 +3,7 @@ package user;
 import eds.EmptyListException;
 import eds.EmptyStackException;
 import eds.InvalidPositionException;
-import eds.TreeIterator;
+import eds.TreeIterator2;
 import eds.TwoWayIterator;
 import home.*;
 
@@ -105,7 +105,7 @@ public interface UserInterface {
 	 * @throws EmptyListException
 	 * @throws EmptyStackException 
 	 */
-	TreeIterator<String, Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException, EmptyStackException;
+	TreeIterator2<String, Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException, EmptyStackException;
 
 	/**
 	 * 

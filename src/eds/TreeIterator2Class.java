@@ -1,15 +1,18 @@
 package eds;
 
-public class TreeIteratorClass<K, V> implements TreeIterator<K, V> {
-
-	private BSTNode<K, V> root;
-	private Stack<BSTNode<K, V>> stack;
-
-	public TreeIteratorClass(BSTNode<K, V> root) throws EmptyStackException, EmptyListException {
+public class TreeIterator2Class<K, V> implements TreeIterator2<K, V> {
+	private BSTNode<K,V> root;
+	private Stack<BSTNode<K,V>> stack;
+	
+	
+	
+	
+	
+	public TreeIterator2Class(BSTNode<K,V>root) throws EmptyStackException, EmptyListException{
 		this.root = root;
 		stack = new StackInList<BSTNode<K, V>>();
 		rewind();
-
+		
 	}
 
 	public boolean hasNext() throws EmptyStackException, EmptyListException {
@@ -27,8 +30,8 @@ public class TreeIteratorClass<K, V> implements TreeIterator<K, V> {
 
 		BSTNode<K, V> next = stack.pop();
 
-		if (next.getLeft() != null) {
-			stack.push(next.getLeft());
+		if (next.getRight() != null) {
+			stack.push(next.getRight());
 			fill();
 		}
 
@@ -36,8 +39,8 @@ public class TreeIteratorClass<K, V> implements TreeIterator<K, V> {
 	}
 
 	private void fill() throws EmptyStackException, EmptyListException {
-		while (stack.top().getRight() != null) {
-			stack.push(stack.top().getRight());
+		while (stack.top().getLeft() != null) {
+			stack.push(stack.top().getLeft());
 		}
 	}
 

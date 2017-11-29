@@ -132,12 +132,15 @@ public class Main {
 			int people = in.nextInt();
 			String local = in.nextLine().trim();
 
-			TreeIterator<String, Home> it = ub.platformHousesIterator(people, local);
+			TreeIterator2<Integer, LBList<String, Home>> it = ub.platformHousesIterator(people, local);
+			
 			while (it.hasNext()) {
-				Home home = it.next().getValue();
-
+				LBListIterator<String, Home> itt = it.next().getValue().iterator();
+				while(itt.hasNext()){
+					Home home = itt.next().getObject();
 				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
 						home.getPrice(), home.getCap(), home.getScore());
+				}
 			}
 
 		} catch (InputMismatchException e) {
@@ -186,7 +189,7 @@ public class Main {
 		in.nextLine();
 
 		try {
-			TreeIterator<String, Home> it = ub.hostedHomesIterator(userId);
+			TreeIterator2<String, Home> it = ub.hostedHomesIterator(userId);
 			while (it.hasNext()) {
 				Home home = it.next().getValue();
 				System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),

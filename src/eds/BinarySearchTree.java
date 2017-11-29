@@ -320,6 +320,10 @@ public class BinarySearchTree<K extends Comparable<K>, V>
         return new TreeIteratorClass<K,V>(root);
     }
     
+    public TreeIterator2<K, V>iterator2() throws EmptyStackException, EmptyListException{
+    	return new TreeIterator2Class<>(root);
+    }
+    
 
 	@Override
 	public HashTableIterator<K, V> iterate() throws InvalidPositionException {

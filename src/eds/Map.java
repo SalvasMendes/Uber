@@ -20,6 +20,8 @@ public interface Map<K, V> {
 	 * @throws InvalidPositionException
 	 */
 	void add(K key, V value) throws InvalidPositionException;
+	
+	TreeIterator2<K, V>iterator2() throws EmptyStackException, EmptyListException;
 
 	/**
 	 * This method removes an object in the hashtable by giving its key, this

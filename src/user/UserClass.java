@@ -56,18 +56,16 @@ public class UserClass implements UserInterface, java.io.Serializable {
 	}
 
 	public void removeHome(String homeID) throws InvalidPositionException, EmptyListException {
-		//System.out.println(hostedHomes.find(homeID).getLocal());
 		hostedHomes.remove(homeID);
-		//System.out.println(hostedHomes.getSize());
 	}
 
 	public boolean hasHome(String homeId) throws InvalidPositionException {
 		return (hostedHomes.find(homeId) != null);
 	}
 
-	public TreeIterator<String, Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException, EmptyStackException {
+	public TreeIterator2<String, Home> hostedHomesIterator() throws InvalidPositionException, EmptyListException, EmptyStackException {
 		
-		return hostedHomes.iterator();
+		return hostedHomes.iterator2();
 	}
 	
 	

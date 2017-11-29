@@ -151,4 +151,10 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 		return null;
 	}
 
+	@Override
+	public TreeIterator2<K, V> iterator2() throws EmptyStackException, EmptyListException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
