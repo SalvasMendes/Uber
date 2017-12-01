@@ -47,7 +47,6 @@ public class HashTableIteratorClass<K, V>
 	public void rewind() throws InvalidPositionException {
 		current = 0;
 		getNext();
-
 	}
 	
 	/**

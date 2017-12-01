@@ -102,12 +102,12 @@ public class Main {
 		String local = in.nextLine().trim();
 
 		try {
-			TreeIterator<Integer, LBList<String, Home>> it = ub.bestHomesIterator(local);
+			TreeIterator<Integer, Map<String, Home>> it = ub.bestHomesIteratorr(local);
 
 			while (it.hasNext()) {
-				LBListIterator<String, Home> itt = it.next().getValue().iterator();
+				TreeIterator2<String, Home> itt = it.next().getValue().iterator2();
 				while (itt.hasNext()) {
-					Home home = itt.next().getObject();
+					Home home = itt.next().getValue();
 					System.out.printf(LIST, home.getHomeId(), home.getDescription(), home.getAddress(), home.getLocal(),
 							home.getPrice(), home.getCap(), home.getScore());
 

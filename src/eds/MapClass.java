@@ -13,7 +13,7 @@ public class MapClass<K, V> implements java.io.Serializable, Map<K, V> {
 	private LBList<K, V>[] buckets;
 	private int size;
 	private int nbrEntries;
-	private static double loadR = 0.75;
+	private static double loadR = 0.6;
 	private int newSize;
 	private int index;
 	private int hcode;

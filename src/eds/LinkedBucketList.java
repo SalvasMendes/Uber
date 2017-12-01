@@ -38,9 +38,13 @@ public class LinkedBucketList<K, V> implements java.io.Serializable, LBList<K, V
 			head = newBucket;
 			size++;
 		} else {
-			newBucket = new BucketClass<K, V>(getBucket(findEntry(key)), key, value,
-					getBucket(findEntry(key)).getPrevious());
-			getBucket(findEntry(key)).setPrevious(newBucket);
+			int index = findEntry(key);
+			Bucket<K, V> prevBucket = this.getBucket(index-1);
+			Bucket<K, V> nextBucket = this.getBucket(index);
+
+			newBucket = new BucketClass<K, V>(nextBucket, key, value, prevBucket);
+			prevBucket.setNext(newBucket);
+			nextBucket.setPrevious(newBucket);
 			size++;
 		}
 	}

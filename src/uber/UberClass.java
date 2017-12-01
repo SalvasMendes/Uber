@@ -18,6 +18,7 @@ public class UberClass implements UberInterface {
 
 	private Map<String, UserInterface> users;
 	private Map<String, Home> homes;
+	private Map<String, Map<Integer, Map<String, Home>>> homesByPlace;
 
 	@SuppressWarnings("unchecked")
 	public UberClass() {
@@ -55,6 +56,23 @@ public class UberClass implements UberInterface {
 			return;
 		}
 
+		try {
+			FileInputStream fileIn = new FileInputStream("homesByPlace");
+			ObjectInputStream objIn = new ObjectInputStream(fileIn);
+			homesByPlace = (Map<String, Map<Integer, Map<String, Home>>>) (objIn.readObject());
+			objIn.close();
+			fileIn.close();
+		} catch (FileNotFoundException fnf) {
+			homesByPlace = new MapClass<String, Map<Integer, Map<String, Home>>>();
+		} catch (IOException i) {
+			i.printStackTrace();
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class User not found.");
+			c.printStackTrace();
+			return;
+		}
+
 	}
 
 	public void createUser(String userId, String email, String phone, String name, String address, String nationality)
@@ -83,6 +101,18 @@ public class UberClass implements UberInterface {
 			Home home = new HomeClass(homeId, userId, local, description, address, price, cap, owner);
 			homes.add(homeId.toLowerCase(), home);
 			users.find(userId.toLowerCase()).createHome(home);
+
+			if (!homesByPlace.find(local).exists(0)) {
+				Map<Integer, Map<String, Home>> map = new BinarySearchTree<Integer, Map<String, Home>>();
+				Map<String, Home> map2 = new BinarySearchTree<String, Home>();
+				map2.add(homeId.toLowerCase(), home);
+				map.add(0, map2);
+				homesByPlace.add(local.toLowerCase(), map);
+
+			} else {
+				homesByPlace.find(local.toLowerCase()).find(0).add(homeId.toLowerCase(), home);
+			}
+
 		}
 	}
 
@@ -127,7 +157,11 @@ public class UberClass implements UberInterface {
 
 		else {
 			users.find(homes.find(homeId.toLowerCase()).getUserId()).removeHome(homeId.toLowerCase());
-			homes.remove(homeId.toLowerCase());
+			Home home = homes.remove(homeId.toLowerCase());
+			int score = home.getScore();
+			String local = home.getLocal().toLowerCase();
+			homesByPlace.find(local).find(score).remove(homeId.toLowerCase());
+
 		}
 	}
 
@@ -162,6 +196,25 @@ public class UberClass implements UberInterface {
 					home.addScore(points);
 					home.visitederino();
 					users.find(userId.toLowerCase()).addStay(home);
+
+					String local = home.getLocal().toLowerCase();
+					int score = home.getScore();
+
+					homesByPlace.find(local).find(score).remove(homeId.toLowerCase());
+
+					if (!homesByPlace.find(local).exists(score + points)) {
+
+						Map<Integer, Map<String, Home>> map = new BinarySearchTree<Integer, Map<String, Home>>();
+						Map<String, Home> map2 = new BinarySearchTree<String, Home>();
+						map2.add(homeId.toLowerCase(), home);
+						map.add(score + points, map2);
+						homesByPlace.add(local.toLowerCase(), map);
+
+					} else {
+						homesByPlace.find(local.toLowerCase()).find(score + points).add(homeId.toLowerCase(), home);
+
+					}
+
 				}
 			}
 		}
@@ -185,7 +238,13 @@ public class UberClass implements UberInterface {
 
 			else {
 				user.addStay(homes.find(homeId.toLowerCase()));
-				homes.find(homeId.toLowerCase()).visitederino();
+				Home home = homes.find(homeId.toLowerCase());
+				home.visitederino();
+
+				homesByPlace.find(home.getLocal().toLowerCase()).find(home.getScore()).find(homeId.toLowerCase())
+						.visitederino();
+				;
+
 			}
 		}
 	}
@@ -205,6 +264,16 @@ public class UberClass implements UberInterface {
 			FileOutputStream fileOut = new FileOutputStream("homes.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(homes);
+			out.close();
+			fileOut.close();
+		} catch (IOException i) {
+			i.printStackTrace();
+		}
+
+		try {
+			FileOutputStream fileOut = new FileOutputStream("homesByPlace.ser");
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(homesByPlace);
 			out.close();
 			fileOut.close();
 		} catch (IOException i) {
@@ -275,7 +344,7 @@ public class UberClass implements UberInterface {
 		}
 	}
 
-	public TreeIterator<Integer, LBList<String, Home>> bestHomesIterator(String local)
+	public TreeIterator<Integer, Map<String, Home>> bestHomesIterator(String local)
 			throws InvalidPositionException, EmptyListException, EmptyStackException {
 
 		if (homes.nbr() == 0) {
@@ -283,19 +352,19 @@ public class UberClass implements UberInterface {
 		} else {
 
 			HashTableIterator<String, Home> it = homes.iterate();
-			Map<Integer, LBList<String, Home>> tempMap = new BinarySearchTree<Integer, LBList<String, Home>>();
+			Map<Integer, Map<String, Home>> tempMap = new BinarySearchTree<Integer, Map<String, Home>>();
 
 			while (it.hasNext()) {
 				Home home = it.next().getObject();
-				if (home.getLocal().equalsIgnoreCase(local)) {
+				if (home.getLocal().equalsIgnoreCase(local.toLowerCase())) {
 					int score = home.getScore();
-					tempMap.find(score);
 					if (tempMap.find(score) != null) {
-						tempMap.find(score).orderedAdd(home.getHomeId(), home);
+						tempMap.find(score).add(home.getHomeId().toLowerCase(), home);
+
 					} else {
-						LBList<String, Home> list = new LinkedBucketList<String, Home>();
-						list.orderedAdd(home.getHomeId(), home);
-						tempMap.add(score, list);
+						Map<String, Home> map = new BinarySearchTree<String, Home>();
+						map.add(home.getHomeId().toLowerCase(), home);
+						tempMap.add(score, map);
 					}
 				}
 			}
@@ -305,5 +374,14 @@ public class UberClass implements UberInterface {
 				return tempMap.iterator();
 			}
 		}
+	}
+
+	public TreeIterator<Integer, Map<String, Home>> bestHomesIteratorr(String local)
+			throws InvalidPositionException, EmptyListException, EmptyStackException {
+		if (!homesByPlace.exists(local.toLowerCase())) {
+			throw new EmptyListException();
+		}
+
+		return homesByPlace.find(local.toLowerCase()).iterator();
 	}
 }

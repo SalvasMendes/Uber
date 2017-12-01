@@ -164,7 +164,7 @@ public interface UberInterface {
 	 * @throws InputMismatchException
 	 * @throws InvalidPositionException
 	 * @throws EmptyListException
-	 * @throws EmptyStackException 
+	 * @throws EmptyStackException
 	 */
 	TreeIterator2<Integer, LBList<String, Home>> platformHousesIterator(int people, String local)
 			throws InputMismatchException, InvalidPositionException, EmptyListException, EmptyStackException;
@@ -178,10 +178,10 @@ public interface UberInterface {
 	 * @throws UserHasNoHomeException
 	 * @throws InvalidPositionException
 	 * @throws EmptyListException
-	 * @throws EmptyStackException 
+	 * @throws EmptyStackException
 	 */
-	TreeIterator2<String, Home> hostedHomesIterator(String userId)
-			throws UserInexistantException, UserHasNoHomeException, InvalidPositionException, EmptyListException, EmptyStackException;
+	TreeIterator2<String, Home> hostedHomesIterator(String userId) throws UserInexistantException,
+			UserHasNoHomeException, InvalidPositionException, EmptyListException, EmptyStackException;
 
 	/**
 	 * Returns a iterator of all houses travelled by a user
@@ -203,10 +203,11 @@ public interface UberInterface {
 	 * @return
 	 * @throws InvalidPositionException
 	 * @throws EmptyListException
-	 * @throws EmptyStackException 
+	 * @throws EmptyStackException
 	 */
-	TreeIterator<Integer, LBList<String, Home>> bestHomesIterator(String local) throws InvalidPositionException, EmptyListException, EmptyStackException;
-	
-	
+	TreeIterator<Integer, Map<String, Home>> bestHomesIterator(String local)
+			throws InvalidPositionException, EmptyListException, EmptyStackException;
 
+	TreeIterator<Integer, Map<String, Home>> bestHomesIteratorr(String local)
+			throws InvalidPositionException, EmptyListException, EmptyStackException;
 }
