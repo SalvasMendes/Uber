@@ -102,7 +102,7 @@ public class UberClass implements UberInterface {
 			homes.add(homeId.toLowerCase(), home);
 			users.find(userId.toLowerCase()).createHome(home);
 
-			if (!homesByPlace.find(local).exists(0)) {
+			if (!homes.exists(local) || !homesByPlace.find(local).exists(0)) {
 				Map<Integer, Map<String, Home>> map = new BinarySearchTree<Integer, Map<String, Home>>();
 				Map<String, Home> map2 = new BinarySearchTree<String, Home>();
 				map2.add(homeId.toLowerCase(), home);
@@ -193,6 +193,7 @@ public class UberClass implements UberInterface {
 
 				else {
 					Home home = homes.find(homeId.toLowerCase());
+					int oldScore = home.getScore();
 					home.addScore(points);
 					home.visitederino();
 					users.find(userId.toLowerCase()).addStay(home);
@@ -200,18 +201,18 @@ public class UberClass implements UberInterface {
 					String local = home.getLocal().toLowerCase();
 					int score = home.getScore();
 
-					homesByPlace.find(local).find(score).remove(homeId.toLowerCase());
+					homesByPlace.find(local).find(oldScore).remove(homeId.toLowerCase());
 
-					if (!homesByPlace.find(local).exists(score + points)) {
+					if (!homesByPlace.find(local).exists(score)) {
 
 						Map<Integer, Map<String, Home>> map = new BinarySearchTree<Integer, Map<String, Home>>();
 						Map<String, Home> map2 = new BinarySearchTree<String, Home>();
 						map2.add(homeId.toLowerCase(), home);
-						map.add(score + points, map2);
+						map.add(score, map2);
 						homesByPlace.add(local.toLowerCase(), map);
 
 					} else {
-						homesByPlace.find(local.toLowerCase()).find(score + points).add(homeId.toLowerCase(), home);
+						homesByPlace.find(local.toLowerCase()).find(score).add(homeId.toLowerCase(), home);
 
 					}
 
