@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 import eds.*;
 import exceptions.*;
-import uber.*;
+import homeAway.*;
 
 
 /**
@@ -45,7 +45,7 @@ public class Main {
 	public static void main(String[] args) throws InvalidPositionException, UserInexistantException,
 			PropertyInexistantException, TravellerIsHostException, TravellerIsNotHostException {
 		Scanner in = new Scanner(System.in);
-		UberInterface ub = new UberClass();
+		HomeAway ub = new HomeAwayClass();
 		String op = getCommand(in);
 
 		while (!op.equals(QUIT)) {
@@ -97,7 +97,7 @@ public class Main {
 
 	}
 
-	private static void listBest(Scanner in, UberInterface ub) {
+	private static void listBest(Scanner in, HomeAway ub) {
 		String local = in.nextLine().trim();
 
 		try {
@@ -125,7 +125,7 @@ public class Main {
 
 	}
 
-	private static void searchProperty(Scanner in, UberInterface ub) {
+	private static void searchProperty(Scanner in, HomeAway ub) {
 
 		try {
 			int people = in.nextInt();
@@ -158,7 +158,7 @@ public class Main {
 
 	}
 
-	private static void listTraveller(Scanner in, UberInterface ub) {
+	private static void listTraveller(Scanner in, HomeAway ub) {
 		String userId = in.next();
 		in.nextLine();
 
@@ -183,7 +183,7 @@ public class Main {
 
 	}
 
-	private static void listHost(Scanner in, UberInterface ub) {
+	private static void listHost(Scanner in, HomeAway ub) {
 		String userId = in.next();
 		in.nextLine();
 
@@ -209,7 +209,7 @@ public class Main {
 
 	}
 
-	private static void addStay(Scanner in, UberInterface ub) throws InvalidPositionException, UserInexistantException,
+	private static void addStay(Scanner in, HomeAway ub) throws InvalidPositionException, UserInexistantException,
 			PropertyInexistantException, TravellerIsHostException, TravellerIsNotHostException {
 
 		String userId = in.next();
@@ -247,7 +247,7 @@ public class Main {
 
 	}
 
-	private static void checkHouse(Scanner in, UberInterface ub) {
+	private static void checkHouse(Scanner in, HomeAway ub) {
 		String homeId = in.next();
 		in.nextLine();
 		Home home = null;
@@ -263,7 +263,7 @@ public class Main {
 		}
 	}
 
-	private static void removeHouse(Scanner in, UberInterface ub) {
+	private static void removeHouse(Scanner in, HomeAway ub) {
 		String homeId = in.next();
 		in.nextLine();
 		try {
@@ -280,7 +280,7 @@ public class Main {
 		}
 	}
 
-	private static void addHouse(Scanner in, UberInterface ub) {
+	private static void addHouse(Scanner in, HomeAway ub) {
 		try {
 
 			String homeId = in.next();
@@ -306,7 +306,7 @@ public class Main {
 
 	}
 
-	private static void checkUser(Scanner in, UberInterface ub) {
+	private static void checkUser(Scanner in, HomeAway ub) {
 		String userId = in.next();
 		in.nextLine();
 		UserInterface user = null;
@@ -322,7 +322,7 @@ public class Main {
 
 	}
 
-	private static void removeUser(Scanner in, UberInterface ub) {
+	private static void removeUser(Scanner in, HomeAway ub) {
 		String userId = in.next();
 		in.nextLine();
 		try {
@@ -339,7 +339,7 @@ public class Main {
 		}
 	}
 
-	private static void editUser(Scanner in, UberInterface ub) {
+	private static void editUser(Scanner in, HomeAway ub) {
 		String userId = in.next();
 		String email = in.next();
 		String phone = in.next();
@@ -355,7 +355,7 @@ public class Main {
 		}
 	}
 
-	private static void registUser(Scanner in, UberInterface ub) {
+	private static void registUser(Scanner in, HomeAway ub) {
 
 		String userId = in.next();
 		String email = in.next();

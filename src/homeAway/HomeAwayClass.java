@@ -1,4 +1,4 @@
-package uber;
+package homeAway;
 
 import java.io.*;
 import java.util.InputMismatchException;
@@ -14,13 +14,13 @@ import exceptions.*;
  * @author Miguel Candeias (50647) mb.candeias@campus.fct.unl.pt
  *
  */
-public class UberClass implements UberInterface {
+public class HomeAwayClass implements HomeAway {
 
 	private Map<String, UserInterface> users;
 	private Map<String, Home> homes;
 
 	@SuppressWarnings("unchecked")
-	public UberClass() {
+	public HomeAwayClass() {
 		try {
 			FileInputStream fileIn = new FileInputStream("users.ser");
 			ObjectInputStream objIn = new ObjectInputStream(fileIn);

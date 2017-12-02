@@ -1,4 +1,4 @@
-package uber;
+package homeAway;
 
 import java.util.InputMismatchException;
 
@@ -21,7 +21,7 @@ import exceptions.UserNotTravalledException;
  * @author Miguel Candeias (50647) mb.candeias@campus.fct.unl.pt
  *
  */
-public interface UberInterface {
+public interface HomeAway {
 
 	/**
 	 * This method creates a new user of the app, throws exception in case the
