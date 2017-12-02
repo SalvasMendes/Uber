@@ -102,7 +102,7 @@ public class Main {
 		String local = in.nextLine().trim();
 
 		try {
-			TreeIterator<Integer, Map<String, Home>> it = ub.bestHomesIteratorr(local);
+			TreeIterator<Integer, Map<String, Home>> it = ub.bestHomesIterator(local);
 
 			while (it.hasNext()) {
 				TreeIterator2<String, Home> itt = it.next().getValue().iterator2();

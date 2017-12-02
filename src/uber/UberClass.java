@@ -18,7 +18,6 @@ public class UberClass implements UberInterface {
 
 	private Map<String, UserInterface> users;
 	private Map<String, Home> homes;
-	private Map<String, Map<Integer, Map<String, Home>>> homesByPlace;
 
 	@SuppressWarnings("unchecked")
 	public UberClass() {
@@ -56,23 +55,6 @@ public class UberClass implements UberInterface {
 			return;
 		}
 
-		try {
-			FileInputStream fileIn = new FileInputStream("homesByPlace");
-			ObjectInputStream objIn = new ObjectInputStream(fileIn);
-			homesByPlace = (Map<String, Map<Integer, Map<String, Home>>>) (objIn.readObject());
-			objIn.close();
-			fileIn.close();
-		} catch (FileNotFoundException fnf) {
-			homesByPlace = new MapClass<String, Map<Integer, Map<String, Home>>>();
-		} catch (IOException i) {
-			i.printStackTrace();
-			return;
-		} catch (ClassNotFoundException c) {
-			System.out.println("Class User not found.");
-			c.printStackTrace();
-			return;
-		}
-
 	}
 
 	public void createUser(String userId, String email, String phone, String name, String address, String nationality)
@@ -101,17 +83,6 @@ public class UberClass implements UberInterface {
 			Home home = new HomeClass(homeId, userId, local, description, address, price, cap, owner);
 			homes.add(homeId.toLowerCase(), home);
 			users.find(userId.toLowerCase()).createHome(home);
-
-			if (!homes.exists(local) || !homesByPlace.find(local).exists(0)) {
-				Map<Integer, Map<String, Home>> map = new BinarySearchTree<Integer, Map<String, Home>>();
-				Map<String, Home> map2 = new BinarySearchTree<String, Home>();
-				map2.add(homeId.toLowerCase(), home);
-				map.add(0, map2);
-				homesByPlace.add(local.toLowerCase(), map);
-
-			} else {
-				homesByPlace.find(local.toLowerCase()).find(0).add(homeId.toLowerCase(), home);
-			}
 
 		}
 	}
@@ -157,10 +128,7 @@ public class UberClass implements UberInterface {
 
 		else {
 			users.find(homes.find(homeId.toLowerCase()).getUserId()).removeHome(homeId.toLowerCase());
-			Home home = homes.remove(homeId.toLowerCase());
-			int score = home.getScore();
-			String local = home.getLocal().toLowerCase();
-			homesByPlace.find(local).find(score).remove(homeId.toLowerCase());
+			homes.remove(homeId.toLowerCase());
 
 		}
 	}
@@ -193,28 +161,9 @@ public class UberClass implements UberInterface {
 
 				else {
 					Home home = homes.find(homeId.toLowerCase());
-					int oldScore = home.getScore();
 					home.addScore(points);
 					home.visitederino();
 					users.find(userId.toLowerCase()).addStay(home);
-
-					String local = home.getLocal().toLowerCase();
-					int score = home.getScore();
-
-					homesByPlace.find(local).find(oldScore).remove(homeId.toLowerCase());
-
-					if (!homesByPlace.find(local).exists(score)) {
-
-						Map<Integer, Map<String, Home>> map = new BinarySearchTree<Integer, Map<String, Home>>();
-						Map<String, Home> map2 = new BinarySearchTree<String, Home>();
-						map2.add(homeId.toLowerCase(), home);
-						map.add(score, map2);
-						homesByPlace.add(local.toLowerCase(), map);
-
-					} else {
-						homesByPlace.find(local.toLowerCase()).find(score).add(homeId.toLowerCase(), home);
-
-					}
 
 				}
 			}
@@ -241,11 +190,6 @@ public class UberClass implements UberInterface {
 				user.addStay(homes.find(homeId.toLowerCase()));
 				Home home = homes.find(homeId.toLowerCase());
 				home.visitederino();
-
-				homesByPlace.find(home.getLocal().toLowerCase()).find(home.getScore()).find(homeId.toLowerCase())
-						.visitederino();
-				;
-
 			}
 		}
 	}
@@ -265,16 +209,6 @@ public class UberClass implements UberInterface {
 			FileOutputStream fileOut = new FileOutputStream("homes.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(homes);
-			out.close();
-			fileOut.close();
-		} catch (IOException i) {
-			i.printStackTrace();
-		}
-
-		try {
-			FileOutputStream fileOut = new FileOutputStream("homesByPlace.ser");
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(homesByPlace);
 			out.close();
 			fileOut.close();
 		} catch (IOException i) {
@@ -375,14 +309,5 @@ public class UberClass implements UberInterface {
 				return tempMap.iterator();
 			}
 		}
-	}
-
-	public TreeIterator<Integer, Map<String, Home>> bestHomesIteratorr(String local)
-			throws InvalidPositionException, EmptyListException, EmptyStackException {
-		if (!homesByPlace.exists(local.toLowerCase())) {
-			throw new EmptyListException();
-		}
-
-		return homesByPlace.find(local.toLowerCase()).iterator();
 	}
 }

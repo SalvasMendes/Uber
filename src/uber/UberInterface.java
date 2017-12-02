@@ -208,6 +208,5 @@ public interface UberInterface {
 	TreeIterator<Integer, Map<String, Home>> bestHomesIterator(String local)
 			throws InvalidPositionException, EmptyListException, EmptyStackException;
 
-	TreeIterator<Integer, Map<String, Home>> bestHomesIteratorr(String local)
-			throws InvalidPositionException, EmptyListException, EmptyStackException;
+	
 }
