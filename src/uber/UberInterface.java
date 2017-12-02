@@ -14,8 +14,6 @@ import exceptions.UserHasNoHomeException;
 import exceptions.UserHasPlaceException;
 import exceptions.UserInexistantException;
 import exceptions.UserNotTravalledException;
-import home.Home;
-import user.UserInterface;
 
 /**
  * 
